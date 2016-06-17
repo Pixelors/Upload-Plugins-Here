@@ -13,7 +13,7 @@
 # NameColor - 0%
 # Spectator System - 0%
 # Custom Commands - 75% done
-#Maybe Change process of the punishment command for staff to /menu, (still giving staff pixelors.mod or whatever permission)
+#Change process of the punishment command for staff to /menu, (still giving staff pixelors.mod or whatever permission)
 #and in there choosing the Staff icon. There they choose the punishment or moderation item. If punishment it opens the
 #(online) players heads menu, with 1 button for back and 1 for Type Offline Player. If type offline player, it opens an
 #anvil and goes to the next step...the same one the player heads menu of online players goes. That next menu might be a
@@ -347,6 +347,148 @@ command /delspawn:
 	trigger:
 		delete {spawn}
 		message "&cYou deleted the spawn!"
+command /cmdspy:
+	description: Command Spy Toggle
+	usage: &c/cmdspy
+	permission: skript.op
+	trigger:
+		if {cw.%player%} is not set:
+			set {cw.%player%} to true
+			message "&aCMDSPY Enabled"
+			{cmdspy} is true:
+				stop
+			else:
+				set {cmdspy} to true
+		else:
+			delete {cw.%player%}
+			message "&cCMDSPY Disabled"
+			loop all players:
+				{cw.%loop-player%} is true:
+					stop
+				else:
+					delete {cmdspy}
+every 2 seconds:
+	loop all players:
+		if {db_.afk.loc::%{uuid_.id::%loop-player%}%} is not set:
+			set {db_.afk.loc::%{uuid_.id::%loop-player%}%} to location of loop-player
+		if {db_.afk.loc::%{uuid_.id::%loop-player%}%} is equal to location of loop-player:
+			if {db_.afk.marked::%{uuid_.id::%loop-player%}%} is not true:
+				if {db_.afk.timer::%{uuid_.id::%loop-player%}%} is not set:
+					set {db_.afk.timer::%{uuid_.id::%loop-player%}%} to 0
+				add 2 to {db_.afk.timer::%{uuid_.id::%loop-player%}%}
+				if {db_.afk.timer::%{uuid_.id::%loop-player%}%} is bigger than 300:
+					set {db_.afk.marked::%{uuid_.id::%loop-player%}%} to true
+					stop	
+			if {db_.afk.marked::%{uuid_.id::%loop-player%}%} is true:
+				send loop-player title "&cYou are now AFK!" with subtitle "&7Chat or move to disable your AFK!" for 1 seconds
+				stop
+			
+		else:
+			set {db_.afk.timer::%{uuid_.id::%loop-player%}%} to 0
+			set {db_.afk.marked::%{uuid_.id::%loop-player%}%} to false
+			set {db_.afk.loc::%{uuid_.id::%loop-player%}%} to location of loop-player
+			stop
+	
+on chat:
+	set {db_.afk.timer::%{uuid_.id::%player%}%} to 0
+	if {db_.afk.marked::%{uuid_.id::%player%}%} is true:
+		set {db_.afk.marked::%{uuid_.id::%player%}%} to false
+	stop
+		
+on command:
+	set {db_.afk.timer::%{uuid_.id::%player%}%} to 0
+	if {db_.afk.marked::%{uuid_.id::%player%}%} is true:
+		set {db_.afk.marked::%{uuid_.id::%player%}%} to false
+	stop
+	
+on chat:
+	set {db_.afk.timer::%{uuid_.id::%player%}%} to 0
+	if {db_.afk.marked::%{uuid_.id::%player%}%} is true:
+		set {db_.afk.marked::%{uuid_.id::%player%}%} to false
+		stop
+		
+on place:
+	set {db_.afk.timer::%{uuid_.id::%player%}%} to 0
+	if {db_.afk.marked::%{uuid_.id::%player%}%} is true:
+		set {db_.afk.marked::%{uuid_.id::%player%}%} to false
+		stop
+		
+on mine:
+	set {db_.afk.timer::%{uuid_.id::%player%}%} to 0
+	if {db_.afk.marked::%{uuid_.id::%player%}%} is true:
+		set {db_.afk.marked::%{uuid_.id::%player%}%} to false
+		stop
+		
+on consume:
+	set {db_.afk.timer::%{uuid_.id::%player%}%} to 0
+	if {db_.afk.marked::%{uuid_.id::%player%}%} is true:
+		set {db_.afk.marked::%{uuid_.id::%player%}%} to false
+		stop
+		
+on fishing:
+	set {db_.afk.timer::%{uuid_.id::%player%}%} to 0
+	if {db_.afk.marked::%{uuid_.id::%player%}%} is true:
+		set {db_.afk.marked::%{uuid_.id::%player%}%} to false
+		stop
+		
+on entering a portal:
+	set {db_.afk.timer::%{uuid_.id::%player%}%} to 0
+	if {db_.afk.marked::%{uuid_.id::%player%}%} is true:
+		set {db_.afk.marked::%{uuid_.id::%player%}%} to false
+		stop
+
+on shoot:
+	set {db_.afk.timer::%{uuid_.id::%player%}%} to 0
+	if {db_.afk.marked::%{uuid_.id::%player%}%} is true:
+		set {db_.afk.marked::%{uuid_.id::%player%}%} to false
+		stop
+
+on bed enter:
+	set {db_.afk.timer::%{uuid_.id::%player%}%} to 0
+	if {db_.afk.marked::%{uuid_.id::%player%}%} is true:
+		set {db_.afk.marked::%{uuid_.id::%player%}%} to false
+		stop
+
+on bed leave:
+	set {db_.afk.timer::%{uuid_.id::%player%}%} to 0
+	if {db_.afk.marked::%{uuid_.id::%player%}%} is true:
+		set {db_.afk.marked::%{uuid_.id::%player%}%} to false
+		stop
+
+on block damage:
+	set {db_.afk.timer::%{uuid_.id::%player%}%} to 0
+	if {db_.afk.marked::%{uuid_.id::%player%}%} is true:
+		set {db_.afk.marked::%{uuid_.id::%player%}%} to false
+		stop
+
+on break:
+	set {db_.afk.timer::%{uuid_.id::%player%}%} to 0
+	if {db_.afk.marked::%{uuid_.id::%player%}%} is true:
+		set {db_.afk.marked::%{uuid_.id::%player%}%} to false
+		stop
+
+on shoot:
+	set {db_.afk.timer::%{uuid_.id::%player%}%} to 0
+	if {db_.afk.marked::%{uuid_.id::%player%}%} is true:
+		set {db_.afk.marked::%{uuid_.id::%player%}%} to false
+		stop
+on command:
+	player doesn't have permission:
+		cancel event
+on command:
+	player is online
+	{cmdspy} is true
+	if command is set:
+		if arguments are not set:
+			loop all players:
+				if {cw.%loop-player%} is true:
+					event-player is not loop-player
+					message "&b&lCMD&c&lSPY &8> &6%name of player%&7: &a/%command%" to loop-player
+		if arguments are set:
+			loop all players:
+				if {cw.%loop-player%} is true:
+					event-player is not loop-player
+					message "&b&lCMD&c&lSPY &8> &6%name of player%&7: &a/%command% %arguments%" to loop-player
 on chat:
 	if {staffchat.%player%} is 1:
 		cancel event
@@ -374,14 +516,20 @@ on chat:
 					if player doesn't have permission "skript.op":
 						message "&9Anti-Hackusate &7> &cIf you believe someone is hacking, please notify a staff member."
 						cancel event
-				if message contains "shit" or "fuck" or "dick" or "nigger" or "nigga" or "penis" or "vagina" or "cunt" or "fuck" or "sex" or "motherfucker" or "fuq" or "fuc" or "fuk" or "fk" or "bitch" or "shit" or "bullshit" or "bullsht" or "ass" or "<dot>" or "dot" or "[.]" or "<.>" or "{.}" or "boobs" or "sh*t" or "porn" or "" or "9/11" or ".co" or ".us" or ".uk" or ".ws" or ".tk" or ".org" or ".to" or "dot" or "(dot)" or ".pw" or "dot" or ".it" or ".tech" or ".edu" or "DOT" or " , " or ".de" or ".tl" or ".nl" or ".be" or ".me" or ".info" or ".ly" or ".onion" or ".bit" or ".pl" or ".gl" or ".tv" or ".gs" or ".myserver" or ".club" or ".space" or ".design" or ".rent" or ".bid" or ".trade" or ".webcam" or ".press" or ".io" or ".ca" or ".college" or ".host" or ".es" or ".yoga" or ".financial" or ".flights" or ".guitars" or ".xyz" or "DDOS" or "hell" or "soul" or ".mc-server.net" or "mc-shock.com" or "mc-dns.com" or "mc-dns.net" or "mcpro.co" or "mcph.co" or "mcph.eu" or "mcpro.eu" or "hypixel" or "mineplex" or "Allahu Akbar" or "kys" or "kms" or "slut":
+				if message contains "shit" or "fuck" or "dick" or "nigger" or "nigga" or "penis" or "vagina" or "cunt" or "fuck" or "sex" or "motherfucker" or "fuq" or "fuc" or "fuk" or "fk" or "bitch" or "shit" or "bullshit" or "bullsht" or "ass" or "<dot>" or "dot" or "[.]" or "<.>" or "{.}" or "boobs" or "sh*t" or "porn" or "" or "9/11" or ".co" or ".us" or ".uk" or ".ws" or ".tk" or ".org" or ".to" or "dot" or "(dot)" or ".pw" or "dot" or ".it" or ".tech" or ".edu" or "DOT" or " , " or ".de" or ".tl" or ".nl" or ".be" or ".me" or ".info" or ".ly" or ".onion" or ".bit" or ".pl" or ".gl" or ".tv" or ".gs" or ".myserver" or ".club" or ".space" or ".design" or ".rent" or ".bid" or ".trade" or ".webcam" or ".press" or ".io" or ".ca" or ".college" or ".host" or ".es" or ".yoga" or ".financial" or ".flights" or ".guitars" or ".xyz" or "DDOS" or "hell" or "soul" or ".mc-server.net" or "mc-shock.com" or "mc-dns.com" or "mc-dns.net" or "mcpro.co" or "mcph.co" or "mcph.eu" or "mcpro.eu" or "hypixel" or "mineplex" or "Allahu Akbar" or "kys" or "kms" or "slut" or "crap" or "whore":
 					if player doesn't have permission "skript.op":
 						execute console command "/warn %player% Inappropriate Messages"
 						execute console command "/tempmute %player% 10m Inappropriate Messages"
 						cancel event
-on any command:
-	player doesn't have permission:
-		cancel event
+on death:
+	spawn 500 of particle blockcrack_152_0 at victim
+on login:
+	if "%player%" contains "shit" or "fuck" or "dick" or "nigger" or "nigga" or "penis" or "vagina" or "cunt" or "fuck" or "sex" or "motherfucker" or "fuq" or "fuc" or "fuk" or "fk" or "bitch" or "shit" or "bullshit" or "bullsht" or "ass" or "<dot>" or "dot" or "[.]" or "<.>" or "{.}" or "boobs" or "sh*t" or "porn" or "" or "9/11" or ".co" or ".us" or ".uk" or ".ws" or ".tk" or ".org" or ".to" or "dot" or "(dot)" or ".pw" or "dot" or ".it" or ".tech" or ".edu" or "DOT" or " , " or ".de" or ".tl" or ".nl" or ".be" or ".me" or ".info" or ".ly" or ".onion" or ".bit" or ".pl" or ".gl" or ".tv" or ".gs" or ".myserver" or ".club" or ".space" or ".design" or ".rent" or ".bid" or ".trade" or ".webcam" or ".press" or ".io" or ".ca" or ".college" or ".host" or ".es" or ".yoga" or ".financial" or ".flights" or ".guitars" or ".xyz" or "DDOS" or "hell" or "soul" or ".mc-server.net" or "mc-shock.com" or "mc-dns.com" or "mc-dns.net" or "mcpro.co" or "mcph.co" or "mcph.eu" or "mcpro.eu" or "hypixel" or "mineplex" or "Allahu Akbar" or "kys" or "kms" or "slut" or "crap" or "whore":
+		set {_player} to "%player%"
+		make console execute command "/kick %player% &4Inappropriate Name. It must be changed to be able to join."
+		loop all players:
+			loop-player has permission "skript.op":
+				send "&b{_player} was kicked due to &4Inappropriate Name." to loop-player
 on join:
 	wait 3 ticks
 	teleport player to {spawn}
@@ -450,47 +598,14 @@ on quit:
 	send player title "Goodbye!" for 2 seconds
 #	wipe player sidebar
 	broadcast "%player% has left!"
-
-####################
-#options:
-#	helpop: &8[&aHelp-Op&8]&7
-#	adminchat: &8[&5Admin Chat&8]&7
-#command /ac <text>:
-#	aliases: /adminchat, /chatadmin, /adminc
-#	permission: skript.op
-#	trigger:
-#		loop all ops:
-#			send "{@adminchat} %command sender%: %arg-1%" to loop-player
-#			command "/playsound note.pling %loop-player% ~ ~ ~ 0.1 1 0.1"
-#command /hr <text>:
-#	usage: /hr <message>
-#	permission: skript.op
-#	trigger:
-#		if {lasthelpop} is not set:
-#			send "{@helpop} No player to respond to!" 
-#			command "/playsound random.break %player% ~ ~ ~ 1 0.5 1"
-#		else:
-#			command sender command "/msg %{lasthelpop}% %arg-1%"
-#on quit:
-#	delete {hpc::%player%}
-#	"%{lasthelpop}%" is equal to "%player%"
-#	delete {lasthelpop}
-#command /helpop <text>:
-#	trigger:
-#		if command sender has permission "skript.op":
-#			command sender command "/ac %arg-1%"
-#			stop
-#		if {hpc::%command sender%} is true:
-#			send "{@helpop} Stop spamming Help-Op!"
-#			command "/playsound note.bass %command sender% ~ ~ ~ 1 0.5 1"
-#		else:
-#			loop all ops:
-#				send "{@helpop} %command sender%: %arg-1%" to loop-player
-#				command "/playsound random.orb %loop-player% ~ ~ ~ 0.25 0.5 0.25"
-#			send "{@helpop} Sent Help-Op! Do not spam!"
-#			send "{@helpop} You: %arg-1%"
-#			set {lasthelpop} to "%command sender%"
-#			command "/playsound random.break %command sender% ~ ~ ~ 1 0.5 1"
-#			set {hpc::%command sender%} to true
-#			wait 30 real ticks
-#			delete {hpc::%command sender%}
+	if {cw.%player%} is true:
+		delete {cw.%player%}
+		loop all players:
+			{cw.%loop-player%} is true:
+				stop
+			else:
+				delete {cmdspy}
+	set {db_.afk.timer::%{uuid_.id::%player%}%} to 0
+	if {db_.afk.marked::%{uuid_.id::%player%}%} is true:
+		set {db_.afk.marked::%{uuid_.id::%player%}%} to false
+		stop
