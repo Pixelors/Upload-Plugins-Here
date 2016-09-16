@@ -1,0 +1,539 @@
+groups:
+  Trainer:
+    permissions:
+    - pa.bid
+    - pa.auction
+    - pa.info
+    - com.pixelextras.commands.PokeSee
+    - com.pixelextras.commands.MoveList
+    - com.pixelextras.commands.Sell
+    - com.pixelextras.commands.tm
+    - auction.limit.20
+    - chatformat.default
+    - deluxechat.pm
+    - essentials.msg
+    - essentials.r
+    - com.ivsevsmod.ivsevs.commands.HiddenPower
+    - com.ivsevsmod.ivsevs.commands.IVs
+    - com.ivsevsmod.ivsevs.commands.EVs
+    - pixelextras.command.hiddenpower
+    - com.pixelextras.commands.Ivs
+    - com.pixelextras.commands.Evs
+    - com.wondertrademod.wondertrade.commands.WonderTrade
+    - com.pixelextras.commands.PokeSee
+    - rewards.6
+    - essentials.kits.food
+    - essentials.kits.starterkit
+    - essentials.kits.trainermonthly
+    - essentials.kits.trainerweekly
+    - essentials.kits.trainerdaily
+    - essentials.kits.trainer
+    - gprealestate.info
+    - gprealestate.claim.buy
+    - gprealestate.claim.sell
+    - gprealestate.subclaim.buy
+    - gprealestate.subclaim.sell
+    - gprealestate.sellbuy
+    - gprealestate.sellsub
+    - gprealestate.buy
+    - gprealestate.sell
+    - essentials.signs.use.weather
+    - essentials.signs.use.warp
+    - essentials.signs.use.time
+    - essentials.signs.use.repair
+    - essentials.signs.use.mail
+    - essentials.signs.use.disposal
+    - essentials.signs.use.free
+    - essentials.signs.use.balance
+    - essentials.signs.use.buy
+    - essentials.signs.use.sell
+    - essentials.back
+    - wildtp.wild
+    - essentials.kit
+    - essentials.warp.list
+    - essentials.warp
+    - griefprevention.claims
+    - wild.wildtp
+    - ontime.track
+    - ontime.top
+    - ontime.me
+    - ontime.afk.collect
+    - ontime.referredby.enable
+    - cmi.command.ping
+    - essentials.tpdeny
+    - essentials.tpaccept
+    - essentials.tpahere
+    - essentials.tpa
+    - essentials.delhome
+    - essentials.sethome.bed
+    - essentials.sethome
+    - essentials.home.bed
+    - essentials.home
+    - essentials.spawn
+    - essentials.seen
+    - essentials.rules
+    - essentials.mail.send
+    - essentials.mail
+    - essentials.list
+    - essentials.helpop
+    - essentials.help
+    - essentials.afk.auto
+    - essentials.afk
+    - essentials.pay
+    - essentials.balancetop
+    - essentials.balance
+    - essentials.signs.use.sell
+    - essentials.signs.use.buy
+    - cmi.command.time
+    - -litebans.notify.broadcast
+    - -litebans.notify
+    options:
+      prefix: '&2Trainer'
+      default: true
+  Trainer+:
+    options:
+      prefix: '&2Trainer&6+'
+    inheritance:
+    - trainer
+    permissions:
+    - rewards.1
+    - essentials.kits.starterkit
+    - essentials.kits.trainermonthly
+    - essentials.kits.trainerweekly
+    - essentials.kits.trainerdaily
+    - essentials.kits.trainer
+    - essentials.kits.food
+    - essentials.sethome.multiple.trainer
+    - essentials.sethome.multiple
+    - pa.bid
+    - pa.auction
+    - pa.info
+    - com.pixelextras.commands.PokeSee
+  Ranger:
+    options:
+      prefix: '&aRanger'
+    inheritance:
+    - trainer+
+    permissions:
+    - pixelors.ranger
+    - rewards.2
+    - essentials.kits.starterkit
+    - essentials.kits.trainermonthly
+    - essentials.kits.trainerweekly
+    - essentials.kits.trainerdaily
+    - essentials.kits.trainer
+    - essentials.kits.food
+    - essentials.sethome.multiple.ranger
+    - essentials.sethome.multiple
+    - com.pixelmonmod.pixelmon.commands.Heal
+    - pa.bid
+    - pa.auction
+    - pa.info
+    - com.pixelextras.commands.PokeSee
+  Ace:
+    options:
+      prefix: '&bAce'
+    inheritance:
+    - ranger
+    permissions:
+    - pixelors.ace
+    - rewards.3
+    - essentials.kits.trainer
+    - essentials.kits.trainermonthly
+    - essentials.kits.trainerdaily
+    - essentials.kits.trainerweekly
+    - essentials.kits.starterkit
+    - essentials.kits.food
+    - essentials.workbench
+    - essentials.repair
+    - essentials.hat
+    - com.pixelmonmod.pixelmon.commands.Heal
+    - essentials.sethome.multiple.ace
+    - essentials.sethome.multiple
+    - pa.bid
+    - pa.auction
+    - pa.info
+    - com.pixelextras.commands.PokeSee
+  Veteran:
+    options:
+      prefix: '&dVeteran'
+    inheritance:
+    - ace
+    permissions:
+    - com.pixelextras.commands.PC
+    - pixelors.veteran
+    - rewards.4
+    - essentials.kits.food
+    - essentials.kits.starterkit
+    - essentials.kits.trainerdaily
+    - essentials.kits.trainerweekly
+    - essentials.kits.trainermonthly
+    - essentials.kits.trainer
+    - essentials.signs.color
+    - essentials.teleport.cooldown.bypass
+    - essentials.hat
+    - essentials.workbench
+    - com.pixelmonmod.pixelmon.commands.Heal
+    - essentials.sethome.multiple.veteran
+    - essentials.sethome.multiple
+    - essentials.repair
+    - pa.bid
+    - pa.auction
+    - pa.info
+    - com.pixelextras.commands.PokeSee
+  Commander:
+    options:
+      prefix: '&6Commander'
+    inheritance:
+    - veteran
+    permissions:
+    - pixelors.commander
+    - rewards.5
+    - essentials.kits.food
+    - essentials.kits.starterkit
+    - essentials.kits.trainerdaily
+    - essentials.kits.trainerweekly
+    - essentials.kits.trainermonthly
+    - essentials.kits.trainer
+    - essentials.enderchest
+    - essentials.repair
+    - essentials.signs.color
+    - essentials.teleport.cooldown.bypass
+    - essentials.hat
+    - essentials.workbench
+    - com.pixelmonmod.pixelmon.commands.Heal
+    - essentials.sethome.multiple.commander
+    - essentials.sethome.multiple
+    - pa.bid
+    - pa.auction
+    - pa.info
+    - com.pixelextras.commands.PokeSee
+  Trusted:
+    options:
+      prefix: '&2Trusted'
+    permissions:
+    - essentials.kits.food
+    - essentials.kits.starterkit
+    - essentials.kits.trainermonthly
+    - essentials.kits.trainerweekly
+    - essentials.kits.trainerdaily
+    - essentials.kits.trainer
+    - essentials.chat.ignoreexempt
+    - deluxechat.pm.url
+    - deluxechat.url
+    - pa.bid
+    - pa.auction
+    - pa.info
+    - com.pixelextras.commands.PokeSee
+    inheritance:
+    - Trainer+
+  Normal-Gym-Leader:
+    options:
+      prefix: '&bNormal &336-39'
+    inheritance:
+    - Trusted
+    permissions:
+    - pixelgym.leader
+    - pa.bid
+    - pa.auction
+    - pa.info
+    - com.pixelextras.commands.PokeSee
+  Fire-Gym-Leader:
+    options:
+      prefix: '&bFire &339-45'
+    inheritance:
+    - Trusted
+    permissions:
+    - pixelgym.leader
+    - pa.bid
+    - pa.auction
+    - pa.info
+    - com.pixelextras.commands.PokeSee
+  Bug-Gym-Leader:
+    options:
+      prefix: '&bBug &345-51'
+    inheritance:
+    - Trusted
+    permissions:
+    - pixelgym.leader
+    - pa.bid
+    - pa.auction
+    - pa.info
+    - com.pixelextras.commands.PokeSee
+  Flying-Gym-Leader:
+    options:
+      prefix: '&bFlying &351-57'
+    inheritance:
+    - Trusted
+    permissions:
+    - pixelgym.leader
+    - pa.bid
+    - pa.auction
+    - pa.info
+    - com.pixelextras.commands.PokeSee
+  Fighting-Gym-Leader:
+    options:
+      prefix: '&bFighting &357-61'
+    inheritance:
+    - Trusted
+    permissions:
+    - pixelgym.leader
+    - pa.bid
+    - pa.auction
+    - pa.info
+    - com.pixelextras.commands.PokeSee
+  Ghost-Gym-Leader:
+    options:
+      prefix: '&bGhost &361-67'
+    inheritance:
+    - Trusted
+    permissions:
+    - pixelgym.leader
+    - pa.bid
+    - pa.auction
+    - pa.info
+    - com.pixelextras.commands.PokeSee
+  Water-Gym-Leader:
+    options:
+      prefix: '&bWater &367-73'
+    inheritance:
+    - Trusted
+    permissions:
+    - pixelgym.leader
+    - pa.bid
+    - pa.auction
+    - pa.info
+    - com.pixelextras.commands.PokeSee
+  Dragon-Gym-Leader:
+    options:
+      prefix: '&bDragon &373-78'
+    inheritance:
+    - Trusted
+    permissions:
+    - pixelgym.leader
+    - pa.bid
+    - pa.auction
+    - pa.info
+    - com.pixelextras.commands.PokeSee
+  Elite-4:
+    options:
+      prefix: '&eElite 4'
+    inheritance:
+    - Dragon-Gym-Leader
+  Champion:
+    options:
+      prefix: '&dChampion'
+    inheritance:
+    - Elite-4
+  Media:
+    options:
+      prefix: '&eMedia'
+    inheritance:
+    - Trusted
+  Builder:
+    options:
+      prefix: '&bBuilder'
+    inheritance:
+    - Trusted
+    permissions:
+    - litebans.lockdown.bypass
+    - essentials.kits.starterkit
+    - essentials.kits.trainermonthly
+    - essentials.kits.trainerdaily
+    - essentials.kits.trainerweekly
+    - essentials.kits.trainer
+    - essentials.kits.food
+    - pa.bid
+    - pa.auction
+    - pa.info
+    - com.pixelextras.commands.PokeSee
+  Developer:
+    permissions:
+    - auction.reload
+    - litebans.lockdown.bypass
+    - Phoenix.Commands
+    - sv.reload
+    - worldguard.*
+    - cmi.command.feed
+    - deluxechat.admin
+    - litebans.admin
+    - litebans.lastuuid
+    - essentials.broadcast
+    - essentials.gc
+    - essentials.kickall
+    - bukkit.command.tps
+    - bukkit.command.version
+    - bukkit.command.plugins
+    - bukkit.command.reload
+    - cmi.command.groundclean
+    - cmi.command.unloadchunks
+    - cmi.command.save
+    - cmi.command.saveall
+    - cmi.command.lfix
+    - cmi.command.tpall
+    - cmi.command.se
+    - cmi.command.sc
+    - enjin.sign.set
+    - enjin.debug
+    - enjin.report
+    - enjin.lag
+    - enjin.tags
+    - enjin.updateheads
+    - enjin.points.getself
+    - enjin.points.getself
+    - enjin.points.getothers
+    - wild.wildtp.create.sign
+    - wild.wildtp.break.sign
+    - wild.wildtp.reload
+    - autosaveworld.help
+    - autosaveworld.reload
+    - autosaveworld.reloadconfig
+    - autosaveworld.reloadmsg
+    - autosaveworld.version
+    - autosaveworld.info
+    - lagg.clear
+    - lagg.check
+    - lagg.reload
+    - lagg.killmobs
+    - lagg.area
+    - lagg.unloadchunks
+    - cr.reload
+    - cr.set
+    - cr.remove
+    - cr.list
+    - coreprotect.reload
+    - coreprotect.help
+    - pa.bid
+    - pa.auction
+    - pa.info
+    - com.pixelextras.commands.PokeSee
+    options:
+      prefix: '&cDeveloper'
+    inheritance:
+    - Trusted
+  Moderator:
+    permissions:
+    - essentials.tp
+    - essentials.socialspy
+    - essentials.kits.food
+    - essentials.kits.starterkit
+    - essentials.kits.trainerdaily
+    - essentials.kits.trainerweekly
+    - essentials.kits.trainermonthly
+    - essentials.kits.trainer
+    - pixelors.staff
+    - sv.logout
+    - sv.login
+    - sv.see
+    - sv.use
+    - IP.bypass
+    - essentials.afk.others
+    - essentials.seen.banreason
+    - essentials.list.hidden
+    - essentials.helpop.recieve
+    - cmi.namehistory
+    - cmi.command.ping.others
+    - cmi.command.tp
+    - cmi.command.inv
+    - cmi.command.back
+    - deluxechat.socialspy
+    - litebans.notify.mute
+    - litebans.notify.clearchat
+    - litebans.notify.broadcast
+    - litebans.clearchat.bypass
+    - litebans.warnings
+    - litebans.history
+    - litebans.tempban
+    - litebans.tempmute
+    - litebans.warn
+    - litebans.kick
+    - litebans.exempt.kick
+    - litebans.exempt.warn
+    - litebans.exempt.mute
+    options:
+      prefix: '&6STAFF'
+    inheritance:
+    - Trusted
+  Global-Mod:
+    options:
+      prefix: '&6STAFF'
+    permissions:
+    - com.pixelmonmod.pixelmon.commands.Unlock
+    - cmi.command.tfly
+    - essentials.kits.food
+    - essentials.kits.starterkit
+    - essentials.kits.trainerdaily
+    - essentials.kits.trainerweekly
+    - essentials.kits.trainermonthly
+    - essentials.kits.trainer
+    - essentials.kits.starterkit
+    - essentials.kits.trainermonthly
+    - essentials.kits.trainerweekly
+    - essentials.kits.trainerdaily
+    - essentials.kits.trainer
+    - pixelors.gmod
+    - coreprotect.lookup
+    - coreprotect.inspect
+    - griefprevention.eavesdropsigns
+    - griefprevention.separte
+    - essentials.seen.ipsearch
+    - essentials.seen.extra
+    - essentials.seen.whois
+    - cmi.command.info
+    - cmi.command.lastonline
+    - deluxechat.socialspy.onjoin
+    - litebans.notify.dupeip_join
+    - litebans.notify.banned_join
+    - litebans.notify.silent
+    - litebans.notify
+    - litebans.clearchat
+    - litebans.ipreport
+    - litebans.dupeip
+    - litebans.iphistory
+    - litebans.override
+    - litebans.unwarn
+    - litebans.unmute
+    - litebans.mute
+    - ontime.online
+    - ontime.other
+    inheritance:
+    - Moderator
+  Admin:
+    permissions:
+    - sv.list
+    - pixelors.admin
+    - essentials.kickall
+    - coreprotect.restore
+    - ontime.moderator.*
+    - coreprotect.rollback
+    - litebans.togglechat.bypass
+    - litebans.togglechat
+    - litebans.banlist
+    - litebans.staffhistory
+    - litebans.unban
+    - litebans.ipban
+    - litebans.ban
+    - litebans.exempt.bypass
+    - litebans.exempt.ban
+    - litebans.exempt
+    options:
+      prefix: '&6STAFF'
+    inheritance:
+    - Global-Mod
+  Manager:
+    options:
+      prefix: '&6STAFF'
+    permissions:
+    - essentials.mail.sendall
+    - '*'
+  Global-Admin:
+    options:
+      prefix: '&6STAFF'
+    permissions:
+    - coreprotect.*
+    - '*'
+  Director:
+    options:
+      prefix: '&6STAFF'
+    permissions:
+    - '*'
