@@ -1,0 +1,62 @@
+# This version of pixelorsspleef is modified to have a game timer of 5 minutes once players join. Do not use on any normal server! (Cosmetics and economy disabled)
+
+command /spleefwin:
+	permission: please.save.me
+	trigger:
+		delete {spleef.timer.game}
+		broadcast "&6[&9Spleef&6] &7Good game! Heading back to lobby"
+		wait 50 tick
+		set {spleef.join} to yes
+		loop all players:
+			make loop-player execute command "spleef leave"
+			clear the loop-player's inventory
+		wait 10 tick
+		delete {spleef.join}
+		make console execute command "gamedone spleef"
+
+command /spleefgo:
+	executable by: console 
+	trigger:
+		set {spleef.timer.game} to 5
+		set {spleef.round} to 1
+		set {spleef.join} to yes
+		broadcast "&6[&9Spleef&6] &aRound &3&l%{spleef.round}% &aloading..."
+		loop all players:
+			clear loop-player's inventory
+			make loop-player execute command "puthead %{current.head.%loop-player%}%"
+			make loop-player execute command "spleef join %{vote.current.map}%"
+		wait 10 tick
+		delete {spleef.join}
+
+every 30 seconds:
+	if {spleef.timer.game} is set:
+		remove 1 from {spleef.timer.game}
+		if {spleef.timer.game} is 3:
+			broadcast "&6[&9Spleef&6] &7Game ends in &3&l2 Minutes"
+		if {spleef.timer.game} is 2:
+			broadcast "&6[&9Spleef&6] &7Game ends in &3&l1 Minute"
+		if {spleef.timer.game} is 1:
+			broadcast "&6[&9Spleef&6] &7Game ends in &3&l30 Seconds"
+		if {spleef.timer.game} is 0:
+			delete {spleef.timer.game}
+			broadcast "&7Game has finished! Moving to next game..."
+			set {spleef.join} to yes
+			loop all players:
+				make loop-player execute command "spleef leave"
+				make console execute command "coinadmin add %loop-player% 10"
+				clear the loop-player's inventory
+			wait 10 tick
+			delete {spleef.join}
+			make console execute command "gamedone spleef"
+	else:
+		stop
+
+on command:
+	if command is "spleef":
+		if {spleef.join} is set:
+			stop
+		else:
+			cancel event
+			message "&cNo Thanks"
+	else:
+		stop
