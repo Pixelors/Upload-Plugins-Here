@@ -1,0 +1,61 @@
+# This version of pixelorssplegg is modified to have a game timer of 5 minutes once players join. Do not use on any normal server! (Cosmetics and economy disabled)
+
+command /spleggwin:
+	permission: please.save.me
+	trigger:
+		delete {splegg.timer.game}
+		broadcast "&6[&9Splegg&6] &7Good game! Heading back to lobby"
+		wait 50 tick
+		set {splegg.join} to yes
+		loop all players:
+			make loop-player execute command "splegg leave"
+			clear the loop-player's inventory
+		wait 10 tick
+		delete {splegg.join}
+		make console execute command "gamedone splegg"
+
+command /splegggo:
+	executable by: console 
+	trigger:
+		set {splegg.timer.game} to 5
+		set {splegg.round} to 1
+		set {splegg.join} to yes
+		broadcast "&6[&9Splegg&6] &aRound &3&l%{splegg.round}% &aloading..."
+		loop all players:
+			clear loop-player's inventory
+			make loop-player execute command "puthead %{current.head.%loop-player%}%"
+			make loop-player execute command "splegg join %{vote.current.map}%"
+		wait 10 tick
+		delete {splegg.join}
+
+every 30 seconds:
+	if {splegg.timer.game} is set:
+		remove 1 from {splegg.timer.game}
+		if {splegg.timer.game} is 4:
+			broadcast "&6[&9Splegg&6] &7Game ends in &3&l2 Minutes"
+		if {splegg.timer.game} is 2:
+			broadcast "&6[&9Splegg&6] &7Game ends in &3&l1 Minute"
+		if {splegg.timer.game} is 1:
+			broadcast "&6[&9Splegg&6] &7Game ends in &3&l30 Seconds"
+		if {splegg.timer.game} is 0:
+			delete {splegg.timer.game}
+			broadcast "&7Game has finished! Moving to next game..."
+			set {splegg.join} to yes
+			loop all players:
+				make loop-player execute command "splegg leave"
+				make console execute command "coinadmin add %loop-player% 10"
+				clear the loop-player's inventory
+			wait 10 tick
+			delete {splegg.join}
+			make console execute command "gamedone splegg"
+	else:
+		stop
+
+on command:
+	if command is "splegg":
+		if {splegg.join} is set:
+			stop
+		else:
+			cancel event
+	else:
+		stop
