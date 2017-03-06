@@ -1,0 +1,336 @@
+command /staffchat [<text>]:
+	description: Toggles StaffChat
+	permission: pixelors.staff
+	trigger:
+		if argument 1 is not set:
+			if {staffchat.%player%} is 0:
+				set {staffchat.%player%} to 1
+				message "&eStaff Chat &aOn&e."
+				stop
+			if {staffchat.%player%} is 1:
+				set {staffchat.%player%} to 0
+				message "&eStaff Chat &4Off&e."
+				stop
+		if argument 1 is set:
+			if argument 1 is "on":
+				set {staffchat.%player%} to 1
+				message "&eStaff Chat &aOn&e."
+			if argument 1 is "off":
+				set {staffchat.%player%} to 0
+				message "&eStaff Chat &4Off&e."
+			if argument 1 is not "on" or "off":
+				loop all players:
+					loop-player has permission "pixelors.staff":
+						message "&8[&eSC&8] &a%player's display name% &e%arg-1%" to loop-player
+command /sc <text>:
+	description: Sends StaffChat Messages
+	permission: pixelors.staff
+	trigger:
+		loop all players:
+			loop-player has permission "pixelors.staff":
+				send "&8[&eSC&8] &a%player's display name% &r &e%arg-1%" to loop-player
+				command "/playsound note.pling %loop-player% ~ ~ ~ 0.1 1 0.1"
+command /helpop [<text>]:
+    aliases: /ticket, /support, /h, /report
+    description: /help for commands. /help [message] to contact staff.
+    usage: &6/help for commands. /help [message] to contact staff.
+    trigger:
+        if arg 1 is set:
+            loop all players:
+                loop-player has the permission "pixelors.staff":
+                    send "&8[&aHelp&8]&c&l Someone needs help!" to loop-player
+                    send "&8[&aHelp&8]&a %player%: &6%arg-1%" to loop-player
+                    command "/playsound random.orb %loop-player% ~ ~ ~ 0.25 0.5 0.25"
+            message "&8[&aHelp&8]&6 Help Request Sent! Please do not spam!"
+            message "&8[&aHelp&8]&6 You have asked for help with: &c%arg-1%"
+            command "/playsound random.break %player% ~ ~ ~ 1 0.5 1"
+
+command /hr <player> <text>:
+    description: Reply to player's help requests.
+    usage: /hr <player> <message>
+    permission: pixelors.staff
+    trigger:
+        if player is not online:
+            send "&8[&aHelp&8]&c Player is offline or wrong name entered!" 
+            command "/playsound random.break %player% ~ ~ ~ 1 0.5 1"
+        else:
+            message "&8[&aHelp&8]&a You messaged &3%arg 1% &r%arg 2%"
+            send "&8[&aHelp&8] &a%player% &6>&r %arg 2%" to arg 1
+command /slowchat <text>:
+	description: Enables/Disables chat cooldowns.
+	usage: &c/slowchat <on|off>&6 - Enables/Disables chat cooldowns.
+	permission: pixelors.staff
+	trigger:
+		if argument 1 is "on":
+			set {chat.cooldown} to "true"
+			message "&6Chat cooldowns are now &cenabled&6."
+		if argument 1 is "off":
+			set {chat.cooldown} to "false"
+			message "&6Chat cooldowns are now &cdisabled&6."
+command /stopchat <text>:
+	description: Enables/Disables chat
+	usage: &c/stopchat <on|off>&6 - Enables/Disables chat.
+	permission: pixelors.admin
+	trigger:
+		if argument 1 is "on":
+			set {chat.stop} to "true"
+			message "&6Chat is now &cenabled&6."
+		if argument 1 is "off":
+			set {chat.stop} to "false"
+			message "&6Chat is now &cdisabled&6."
+# Option 2
+#		if argument 1 is "enable":
+#			player has permission "chat.enable":
+#				broadcast "&7&l▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪"
+#				broadcast " "
+#				broadcast "&b&lThe chat &ahas been enabled &eby &e%player%!"
+#				broadcast ""
+#				broadcast "&7&l▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪"
+#				set {chat.disabled} to false
+#		if argument 1 is "disable":
+#			player has permission "chat.disable":
+#				broadcast "&7&l▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪"
+#				broadcast " "
+#				broadcast "&b&lThe chat &chas been disabled &eby %player%!"
+#				broadcast ""
+#				broadcast "&7&l▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪"
+#				set {chat.disabled} to true
+command /menu:
+	description: Player Menu
+	permission: pixels.admin
+	trigger:
+		wait 2 ticks
+		open chest with 6 rows named "&aMenu" to player
+		wait 2 ticks
+		format slot 0 of player with map named "&f&lMenu" to close then run [make player execute command "heal"]
+		format slot 9 of player with sand named "&f&lMenu" to close then run [make player execute command "heal"]
+		format slot 18 of player with dirt named "&f&lMenu" to close then run [make player execute command "heal"]
+command /sb [<text>]:
+	description: Staff Broadcast
+	usage: &c/sb <message>
+	permission: pixelors.staff
+	trigger:
+		if arg 1 is not set:
+			message "&9Announce> &cYou may use /bc <text> &6to send a broadcast message to all players."
+			stop trigger
+		else:
+			broadcast "&a%player% &b%arg-1%"
+command /website:
+	aliases: /site
+	description: View our website!
+	trigger:	
+		message "&8[&aWebsite&8]&r http://Pixelors.net"
+command /store:
+	aliases: /shop
+	description: View our store!
+	trigger:	
+		message "&8[&eShop&8]&r http://Pixelors.net/shop"
+command /forum:
+	aliases: /forums, /apply
+	trigger:
+		message "&8[&bForums&8]&r http://Pixelors.net/forum"
+command /discord:
+	description: View our website!
+	trigger:	
+		message "&8[&3Discord&8]&r https://discord.gg/0uJjMfwTge9nJlOd"
+#command /report [<text>]:
+#	permission: skript.op
+#	trigger:
+#		message "&9Report &7> &cIf you believe someone is hacking, please notify a staff member in-game or report them on the forums http://Pixelors.net/forum."
+command /recording <text>:
+	usage: /recording <channel url>
+	aliases: /record
+	permission: pixelors.record
+	trigger:
+		broadcast ""
+		broadcast "&6&l+&7&l---------------------------------------&6&l+"
+		broadcast ""
+		broadcast "		 &a&l%player% &e&lis recording!"
+		broadcast "		&c&lLook at his channel:"
+		broadcast "  &d&l%arg 1%"
+		broadcast ""
+		broadcast "&6&l+&7&l---------------------------------------&6&l+"
+		broadcast ""
+command /streaming <text>:
+	usage: /streaming <url>
+	aliases: /stream
+	permission: pixelors.stream
+	trigger:
+		broadcast ""
+		broadcast "&6&l+&7&l-------------------------------------------&6&l+"
+		broadcast ""
+		broadcast "	   &e&l%player% &a&lis now live!"
+		broadcast "			&d&lLook it and Have Fun:"
+		broadcast "  &c&l%arg 1%"
+		broadcast ""
+		broadcast "&6&l+&7&l-------------------------------------------&6&l+"
+		broadcast ""
+command /vote:
+	description: Help Pixelors & yourself out!
+	trigger:
+		message "&6&l&m---------------------------------------------"
+		message "Get $500 per vote! (More Rewards Soon!)"
+		message "&eTop Monthly Voter gets a Rank Upgrade!"
+		message "&a http://pixelors.net/vote"
+		message "&6&l&m---------------------------------------------"
+command /close:
+	permission: pixelors.admin
+	trigger:
+		broadcast ""
+		broadcast "&c&lThe server needs to reboot in 5 seconds."
+		wait 1 second
+		broadcast "&c&lStopping in 4 seconds!"
+		wait 1 second
+		broadcast "&c&lStopping in 3 seconds!"
+		wait 1 second
+		broadcast "&c&lStopping in 2 seconds!"
+		wait 1 second
+		broadcast "&c&lStopping in 1 second!"
+		wait 1 second
+		broadcast "&c&lStopping server!"
+		broadcast ""
+		wait 1 second
+		make console execute command "restart"
+command /votetempmute <player> <text>:
+	description: Start a Vote for Tempmute
+	aliases: /vtm, /vm, /votemute, /votetmute, /votetm
+	usage: &c/votetempmute <player> <reason>
+	permission: pixelors.trusted
+	trigger:
+		if {pixelors.votepunish} is not set:
+			set {pixelors.votepunish} to true
+			set {pixelors.votecountdown} to true
+			set {pixelors.votepunishment} to "tempmute"
+			set {pixelors.votepunishplayer} to arg 1
+			set {pixelors.votepunishreason} to arg 2
+			set {pixelors.votepunisher} to player
+			broadcast "&6%player% &chas started a Vote to Temporarily Mute &4%{pixelors.votepunishplayer}% &cfor %{pixelors.votepunishreason}%."
+			broadcast "&aTo agree with this vote, type &b/agree&f"
+			broadcast "&cTo disagree with this vote, type &b/disagree&f"
+			broadcast "If you are unsure, you do not have to vote."
+# new way
+#			wait 60 seconds
+#			broadcast 
+
+#every 1 second:
+#	if {pixelors.votepunish} is true:
+#		if {pixelors.votecountdown} is true:
+#			if {pixelors.votepunishtime} is "60":
+#				set {pixelors::onlineplayercountquarter} to {pixelors::onlineplayercount}/4
+#				set {pixelors::onlineplayercountthreequarters} to {pixelors::onlineplayercount}*3
+#				if {pixelors.votenumber}>{pixelors::onlineplayercountthreequarters}:
+#					clear {pixelors::votepunish::*}
+#					execute console command "/%{pixelors.votepunishment}% %{pixelors.votepunishplayer}% 30m %{pixelors.votepunishreason}% (T-%{pixelors.votepunisher}%)"
+#					broadcast "&c%{pixelors.votepunishplayer}% was successfully punished because %{pixelors.votenumber}% agreed to it."
+#				else:
+#					broadcast "&cThe player was not punished because 75%% or more of the players did not agree with it."
+#			else:
+#				add 1 to {pixelors.votepunishtime}
+		if {pixelors.votepunish} is true:
+			message "&cOops! There is a Vote punishment already active! Please wait for it to finish."
+command /agree:
+	description: Agree to a Vote Punishment
+	aliases: /yes
+	trigger:
+		if {pixelors.votepunish} is true:
+			if {pixelors::votepunish::%player%} is not set:
+				add 1 to {pixelors.votenumber}
+				set {pixelors::votepunish::%player%} to true
+				broadcast "&a%{pixelors.votenumber}% now agree to activate punishment."
+				message "&eYou just voted to agree to the punishment proposed!"
+			else:
+				message "&cOops! You already voted on the punishment proposed!"
+		else:
+			message "&cOops! There is no Vote punishment currently active!"
+command /disagree:
+	description: Disagree to a Vote Punishment
+	aliases: /no
+	trigger:
+		if {pixelors.votepunish} is true:
+			if {pixelors::votepunish::%player%} is not set:
+				subtract 1 from {pixelors.votenumber}
+				set {pixelors::votepunish::%player%} to true
+				broadcast "&a%{pixelors.votenumber}% now agree to activate punishment."
+				message "&eYou just voted to disagree to the punishment!"
+			else:
+				message "&cOops! You already voted on the punishment!"
+		else:
+			message "&cOops! There is no Vote punishment currently active!"
+command /commandspy:
+	description: Command Spy Toggle
+	aliases: /cmdspy
+	usage: &c/cmdspy
+	permission: pixelors.admin
+	trigger:
+		if {cw.%player%} is not set:
+			set {cw.%player%} to true
+			message "&8[&6CMDSPY&8] &aEnabled"
+			{cmdspy} is true:
+				stop
+			else:
+				set {cmdspy} to true
+		else:
+			delete {cw.%player%}
+			message "&8[&6CMDSPY&8] &cDisabled"
+			loop all players:
+				{cw.%loop-player%} is true:
+					stop
+				else:
+					delete {cmdspy}
+on command:
+	player is online
+	{cmdspy} is true
+	if command is set:
+		if arguments are not set:
+			loop all players:
+				if {cw.%loop-player%} is true:
+					event-player is not loop-player
+					message "&8[&6CMDSPY&8] &6%name of player%&7: &a/%command%" to loop-player
+		if arguments are set:
+			loop all players:
+				if {cw.%loop-player%} is true:
+					event-player is not loop-player
+					message "&8[&6CMDSPY&8] &6%name of player%&7: &a/%command% %arguments%" to loop-player
+on chat:
+	if {staffchat.%player%} is 1:
+		cancel event
+		loop all players:
+			loop-player has the permission "pixelors.staff":
+				message "&8[&eSC&8] &a%player's display name% &6> &e%coloured message%" to loop-player
+	if {chat.stop} is "true":
+		player doesn't have permission "pixelors.staff":
+			send "&9ALERT > &cThe chat is currently muted!"
+			cancel event
+		else:
+			if {chat.cooldown} is "true":
+				set {_waited} to difference between {spam.%player%.lastused} and now
+				if {_waited} is less than 5 seconds:
+					message "&6Please wait &c%difference between 5 seconds and {_waited}%&6 to send another message."
+					cancel event
+					stop
+				else:
+					send "%player%&7: %message%" to all players
+				set {spam.%player%.lastused} to now
+#			else:
+#				if message contains "hax" or "hack" or "cheat":
+#					if player doesn't have permission "pixelors.staff":
+#						message "&9Anti-Hackusate &7> &cIf you believe someone is hacking, please notify a staff member."
+#						cancel event
+#				if message contains "shit" or "fuck" or "dick" or "nigger" or "nigga" or "penis" or "vagina" or "cunt" or "fuck" or "sex" or "motherfucker" or "fuq" or "fuc" or "fuk" or "fk" or "bitch" or "shit" or "bullshit" or "bullsht" or "ass" or "<dot>" or "dot" or "[.]" or "<.>" or "{.}" or "boobs" or "sh*t" or "porn" or "" or "9/11" or ".co" or ".us" or ".uk" or ".ws" or ".tk" or ".org" or ".to" or "dot" or "(dot)" or ".pw" or "dot" or ".it" or ".tech" or ".edu" or "DOT" or " , " or ".de" or ".tl" or ".nl" or ".be" or ".me" or ".info" or ".ly" or ".onion" or ".bit" or ".pl" or ".gl" or ".tv" or ".gs" or ".myserver" or ".club" or ".space" or ".design" or ".rent" or ".bid" or ".trade" or ".webcam" or ".press" or ".io" or ".ca" or ".college" or ".host" or ".es" or ".yoga" or ".financial" or ".flights" or ".guitars" or ".xyz" or "DDOS" or "hell" or "soul" or ".mc-server.net" or "mc-shock.com" or "mc-dns.com" or "mc-dns.net" or "mcpro.co" or "mcph.co" or "mcph.eu" or "mcpro.eu" or "hypixel" or "mineplex" or "Allahu Akbar" or "kys" or "kms" or "slut" or "crap" or "whore":
+#					if player doesn't have permission "pixelors.staff":
+#						execute console command "/warn %player% Inappropriate Messages"
+#						cancel event
+#				cancel event
+#on login:
+#	if "%player%" contains "shit" or "fuck" or "dick" or "nigger" or "nigga" or "penis" or "vagina" or "cunt" or "fuck" or "sex" or "motherfucker" or "fuq" or "fuc" or "fuk" or "fk" or "bitch" or "shit" or "bullshit" or "bullsht" or "ass" or "<dot>" or "dot" or "[.]" or "<.>" or "{.}" or "boobs" or "sh*t" or "porn" or "" or "9/11" or ".co" or ".us" or ".uk" or ".ws" or ".tk" or ".org" or ".to" or "dot" or "(dot)" or ".pw" or "dot" or ".it" or ".tech" or ".edu" or "DOT" or " , " or ".de" or ".tl" or ".nl" or ".be" or ".me" or ".info" or ".ly" or ".onion" or ".bit" or ".pl" or ".gl" or ".tv" or ".gs" or ".myserver" or ".club" or ".space" or ".design" or ".rent" or ".bid" or ".trade" or ".webcam" or ".press" or ".io" or ".ca" or ".college" or ".host" or ".es" or ".yoga" or ".financial" or ".flights" or ".guitars" or ".xyz" or "DDOS" or "hell" or "soul" or ".mc-server.net" or "mc-shock.com" or "mc-dns.com" or "mc-dns.net" or "mcpro.co" or "mcph.co" or "mcph.eu" or "mcpro.eu" or "hypixel" or "mineplex" or "Allahu Akbar" or "kys" or "kms" or "slut" or "crap" or "whore":
+#		set {_player} to "%player%"
+#		make console execute command "/kick %player% &4Inappropriate Name. It must be changed to be able to join."
+#		loop all players:
+#			loop-player has permission "pixelors.staff":
+#				send "&b{_player} was kicked due to &4Inappropriate Name." to loop-player
+on join:
+	if {staffchat.%player%} is 1:
+		set {staffchat.%player%} to 0
+	add 1 to {pixelors::onlineplayercount}
+on quit:
+	subtract 1 from {pixelors::onlineplayercount}
