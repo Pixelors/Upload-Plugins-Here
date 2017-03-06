@@ -1,0 +1,165 @@
+command /poll:
+	trigger:
+		if {pollz.no} is set:
+			message "&cThere is no poll at this time. Try again later"
+			stop
+		wait a tick
+		open chest with 1 row named "&6Polls - &a&l%{pollz.title}%" to player
+		wait a tick
+		format slot 1 of player with emerald named "&3%{pollz.1.text}%" with lore "&7Click to vote for option 1" to close then run [execute player command "poll1"]
+		format slot 3 of player with emerald named "&3%{pollz.2.text}%" with lore "&7Click to vote for option 2" to close then run [execute player command "poll2"]
+		format slot 5 of player with emerald named "&3%{pollz.3.text}%" with lore "&7Click to vote for option 3" to close then run [execute player command "poll3"]
+		format slot 7 of player with emerald named "&3%{pollz.4.text}%" with lore "&7Click to vote for option 4" to close then run [execute player command "poll4"]
+
+command /pollcreate <text> [<text>]:
+	permission: poll.create
+	usage: /pollcreate [1,2,3,4, title] [question]
+	trigger:
+		if arg 1 is set:
+			if arg 1 is "1":
+				delete {pollz.no}
+				set {pollz.1.text} to arg 2
+				message "&6[&9Polls&6] &6You have set option &a&l1 &6to &a&l%{pollz.1.text}%"
+				stop
+			if arg 1 is "2":
+				delete {pollz.no}
+				set {pollz.2.text} to arg 2
+				message "&6[&9Polls&6] &6You have set option &a&l2 &6to &a&l%{pollz.2.text}%"
+				stop
+			if arg 1 is "3":
+				delete {pollz.no}
+				set {pollz.3.text} to arg 2
+				message "&6[&9Polls&6] &6You have set option &a&l3 &6to &a&l%{pollz.3.text}%"
+				stop
+			if arg 1 is "4":
+				delete {pollz.no}
+				set {pollz.4.text} to arg 2
+				message "&6[&9Polls&6] &6You have set option &a&l4 &6to &a&l%{pollz.4.text}%"
+				stop
+			if arg 1 is "title":
+				delete {pollz.no}
+				set {pollz.title} to arg 2
+				message "&6[&9Polls&6] &6You have set the title to &a&l%{pollz.title}%"
+				stop
+		else:
+			message "&6[&9Polls&6] &cAn error occured."
+			stop
+
+command /poll1:
+	trigger:
+		if {pollz.no} is set:
+			message "&cThere is no poll at this time. Try again later"
+			stop
+		if {pollz.votedd.%player%} is not set:
+			make console execute command "coinadmin add %player% 100"
+			set {pollz.donez.%player%} to "&c&lNo"
+			set {pollz.votedd.%player%} to true
+			add 1 to {pollz.results.1}
+			add 1 to {pollz.current.votes}
+			send "&6[&9Polls&6] &6Thanks for voting"
+			add player to {pollzs::*}
+		else:
+			message "&cYou have already voted on this poll!"
+			stop
+
+command /poll2:
+	trigger:
+		if {pollz.no} is set:
+			message "&cThere is no poll at this time. Try again later"
+			stop
+		if {pollz.votedd.%player%} is not set:
+			make console execute command "coinadmin add %player% 100"
+			set {pollz.donez.%player%} to "&c&lNo"
+			set {pollz.votedd.%player%} to true
+			add 1 to {pollz.results.2}
+			add 1 to {pollz.current.votes}
+			send "&6[&9Polls&6] &6Thanks for voting"
+			add player to {pollzs::*}
+		else:
+			message "&cYou have already voted on this poll!"
+			stop
+
+command /poll3:
+	trigger:
+		if {pollz.no} is set:
+			message "&cThere is no poll at this time. Try again later"
+			stop
+		if {pollz.votedd.%player%} is not set:
+			make console execute command "coinadmin add %player% 100"
+			set {pollz.donez.%player%} to "&c&lNo"
+			set {pollz.votedd.%player%} to true
+			add 1 to {pollz.results.3}
+			add 1 to {pollz.current.votes}
+			send "&6[&9Polls&6] &6Thanks for voting"
+			add player to {pollzs::*}
+		else:
+			message "&cYou have already voted on this poll!"
+			stop
+
+command /poll4:
+	trigger:
+		if {pollz.no} is set:
+			message "&cThere is no poll at this time. Try again later"
+			stop
+		if {pollz.votedd.%player%} is not set:
+			make console execute command "coinadmin add %player% 100"
+			set {pollz.donez.%player%} to "&c&lNo"
+			set {pollz.votedd.%player%} to true
+			add 1 to {pollz.results.4}
+			add 1 to {pollz.current.votes}
+			send "&6[&9Polls&6] &6Thanks for voting"
+			add player to {pollzs::*}
+		else:
+			message "&cYou have already voted on this poll!"
+			stop
+
+command /pollresults:
+	permission: poll.check
+	trigger:
+		message "&6&lTotal Votes: &3&l%{pollz.current.votes}%"
+		message "&6%{pollz.1.text}% &7: &3&l%{pollz.results.1}%"
+		message "&6%{pollz.2.text}% &7: &3&l%{pollz.results.2}%"
+		message "&6%{pollz.3.text}% &7: &3&l%{pollz.results.3}%"
+		message "&6%{pollz.4.text}% &7: &3&l%{pollz.results.4}%"
+
+command /resetpoll:
+	permission: poll.reset
+	trigger:
+		message "&cPoll was reset and disabled"
+		delete {pollz.results.1}
+		delete {pollz.results.2}
+		delete {pollz.results.3}
+		delete {pollz.results.4}
+		delete {pollz.current.votes}
+		loop 100 times:
+			set {_meme} to a random element out of {pollzs::*}
+			set {pollz.donez.%{_meme}%} to "&a&lYes"
+			delete {pollz.votedd.%{_meme}%}
+			remove {_meme} from {pollzs::*}
+		delete {pollz.1.text}
+		delete {pollz.2.text}
+		delete {pollz.3.text}
+		delete {pollz.4.text}
+		delete {pollz.title}
+		clear {pollzs::*}
+
+command /polllist:
+	permission: poll.check
+	trigger:
+		message "%{pollzs::*}%"
+
+command /polldisable:
+	permission: pixelors.manager
+	trigger:
+		set {pollz.no} to "xD"
+		message "&cPolls disabled"
+
+command /pollenable:
+	permission: pixelors.manager
+	trigger:
+		delete {pollz.no}
+		message "&aPolls enabled"
+
+on join:
+	if player has permission "poll.check":
+		make player execute command "pollresults"
