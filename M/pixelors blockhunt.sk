@@ -1,0 +1,46 @@
+# This version of pixelorsbh is modified to have a game timer of 5 minutes once players join. Do not use on any normal server! (Cosmetics and economy disabled)
+
+command /bhwin:
+	permission: please.save.me
+	trigger:
+		broadcast "&6[&9BlockHunt&6] &cGame ending..."
+		set {bh.timer.game} to 1
+
+command /bhgo:
+	executable by: console 
+	trigger:
+		set {bh.timer.game} to 11
+		set {bh.join} to yes
+		loop all players:
+			clear loop-player's inventory
+			make loop-player execute command "puthead %{current.head.%loop-player%}%"
+		wait 10 tick
+		delete {bh.joinable}
+		loop all players:
+			make loop-player execute command "bh join %{vote.current.map}%"
+
+every 30 seconds:
+	if {bh.timer.game} is set:
+		remove 1 from {bh.timer.game}
+		if {bh.timer.game} is 10:
+			broadcast "&6[&9Blockhunt&6] &7Game ends in &3&l5 Minutes"
+		if {bh.timer.game} is 8:
+			broadcast "&6[&9Blockhunt&6] &7Game ends in &3&l4 Minutes"
+		if {bh.timer.game} is 6:
+			broadcast "&6[&9Blockhunt&6]] &7Game ends in &3&l3 Minutes"
+		if {bh.timer.game} is 4:
+			broadcast "&6[&9Blockhunt&6] &7Game ends in &3&l2 Minutes"
+		if {bh.timer.game} is 2:
+			broadcast "&6[&9Blockhunt&6] &7Game ends in &3&l1 Minute"
+		if {bh.timer.game} is 1:
+			broadcast "&6[&9Blockhunt&6] &7Game ends in &3&l30 Seconds"
+		if {bh.timer.game} is 0:
+			delete {bh.timer.game}
+			delete {bh.join}
+			broadcast "&7Game has finished! Moving to next game..."
+			loop all players:
+				make loop-player execute command "bh leave"
+				clear the loop-player's inventory
+			make console execute command "gamedone blockhunt"
+	else:
+		stop
