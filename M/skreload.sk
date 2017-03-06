@@ -1,0 +1,4 @@
+command /skr:
+	permission: skript.quickreload
+	trigger:
+		make player execute command "skript reload all"
