@@ -1,0 +1,56 @@
+on join:
+	clear the player's inventory
+	make player execute command "puthead %{current.head.%player%}%"
+	teleport player to {pixelors.lobby}
+	set player's gamemode to adventure
+	message "&c&lScanning for game..."
+	wait 40 tick
+	if {level.%player%} is not set:
+		set {level.%player%} to 1
+	if {poll.done.%player%} is not set:
+		set {poll.done.%player%} to "&a&lYes"
+	if {vote.current.game} is "guns":
+		set {guns.joinable} to 1
+		teleport player to {map.guns.%{vote.current.map}%}
+		make player execute command "gunffa join"
+		wait 5 tick
+		delete {guns.joinable}	
+	if {vote.current.game} is "kitpvp":
+		set {pvp.joinable} to 1
+		teleport player to {map.kitpvp.%{vote.current.map}%}
+		make player execute command "pixelorspvp join"
+		wait 5 tick
+		delete {pvp.joinable}	
+	if {vote.current.game} is "parkour":
+		set {parkour.joinable} to 1
+		teleport player to {map.parkour.%{vote.current.map}%}
+		make player execute command "parkour join"
+		wait 5 tick
+	if {vote.current.game} is "spleef":
+		set {spleef.joinable} to 1
+		teleport player to {map.spleef.%{vote.current.map}%}
+		make player execute command "spleef join"
+		wait 5 tick
+		delete {spleef.joinable}
+	if {vote.current.game} is "splegg":
+		set {splegg.joinable} to 1
+		teleport player to {map.splegg.%{vote.current.map}%}
+		make player execute command "splegg join"
+		wait 5 tick
+		delete {splegg.joinable}
+	if {vote.current.game} is "blockhunt":
+		teleport player to {pixelors.lobby}
+		message "&c&lGame cannot be joined... Please wait for the current one to end"
+	if {vote.current.game} is "ttt":
+		set {ttt.joinable} to 1
+		teleport player to {map.ttt.%{vote.current.map}%}
+		make player execute command "ttt join"
+		wait 5 tick
+		delete {ttt.joinable}
+
+on skript load:
+	make console execute command "gamevote"
+
+command /level:
+	trigger:
+		message "%{level.%player%}%"
