@@ -1,0 +1,383 @@
+command /createmap <text> [<text>]:
+	permission: admin.map
+	trigger:
+		if arg 1 is "guns":
+			if {map.guns.%arg 2%} is set:
+				message "&cThat is already a map..."
+				stop
+			set {map.guns.%arg 2%} to location of player
+			add arg 2 to {maps.guns.list::*}
+			message "&7Map &3&l%arg 2% &7created!"
+		if arg 1 is "kitpvp":
+			if {map.kitpvp.%arg 2%} is set:
+				message "&cThat is already a map..."
+				stop
+			set {map.kitpvp.%arg 2%} to location of player
+			add arg 2 to {maps.kitpvp.list::*}
+			message "&7Map &3&l%arg 2% &7created!"
+		if arg 1 is "parkour":
+			if {map.parkour.%arg 2%} is set:
+				message "&cThat is already a map..."
+				stop
+			set {map.parkour.%arg 2%} to location of player
+			add arg 2 to {maps.parkour.list::*}
+			message "&7Map &3&l%arg 2% &7created!"
+		if arg 1 is "spleef":
+			if {map.spleef.%arg 2%} is set:
+				message "&cThat is already a map..."
+				stop
+			set {map.spleef.%arg 2%} to location of player
+			add arg 2 to {maps.spleef.list::*}
+			message "&7Map &3&l%arg 2% &7created!"
+		if arg 1 is "splegg":
+			if {map.splegg.%arg 2%} is set:
+				message "&cThat is already a map..."
+				stop
+			set {map.splegg.%arg 2%} to location of player
+			add arg 2 to {maps.splegg.list::*}
+			message "&7Map &3&l%arg 2% &7created!"
+		if arg 1 is "bowspleef":
+			if {map.bowspleef.%arg 2%} is set:
+				message "&cThat is already a map..."
+				stop
+			set {map.bowspleef.%arg 2%} to location of player
+			add arg 2 to {maps.bowspleef.list::*}
+			message "&7Map &3&l%arg 2% &7created!"
+		if arg 1 is "ttt":
+			if {map.ttt.%arg 2%} is set:
+				message "&cThat is already a map..."
+				stop
+			set {map.ttt.%arg 2%} to location of player
+			add arg 2 to {maps.ttt.list::*}
+			message "&7Map &3&l%arg 2% &7created!"
+
+command /removemap <text> [<text>]:
+	permission: admin.map
+	trigger:
+		if arg 1 is "guns":
+			if {map.guns.%arg 2%} is not set:
+				message "&cNo map exists!"
+				stop
+			delete {map.guns.%arg 2%}
+			remove arg 2 from {maps.guns.list::*}
+			message "&7Map &3&l%arg 2% &7removed!"
+		if arg 1 is "kitpvp":
+			if {map.kitpvp.%arg 2%} is not set:
+				message "&cNo map exists!"
+				stop
+			delete {map.kitpvp.%arg 2%}
+			remove arg 2 from {maps.kitpvp.list::*}
+			message "&7Map &3&l%arg 2% &7removed!"
+		if arg 1 is "parkour":
+			if {map.parkour.%arg 2%} is not set:
+				message "&cNo map exists!"
+				stop
+			delete {map.parkour.%arg 2%}
+			remove arg 2 from {maps.parkour.list::*}
+			message "&7Map &3&l%arg 2% &7removed!"
+		if arg 1 is "spleef":
+			if {map.spleef.%arg 2%} is not set:
+				message "&cNo map exists!"
+				stop
+			delete {map.spleef.%arg 2%}
+			remove arg 2 from {maps.spleef.list::*}
+			message "&7Map &3&l%arg 2% &7removed!"
+		if arg 1 is "splegg":
+			if {map.splegg.%arg 2%} is not set:
+				message "&cNo map exists!"
+				stop
+			delete {map.splegg.%arg 2%}
+			remove arg 2 from {maps.splegg.list::*}
+			message "&7Map &3&l%arg 2% &7removed!"
+		if arg 1 is "bowspleef":
+			if {map.bowspleef.%arg 2%} is not set:
+				message "&cNo map exists!"
+				stop
+			delete {map.bowspleef.%arg 2%}
+			remove arg 2 from {maps.bowspleef.list::*}
+			message "&7Map &3&l%arg 2% &7removed!"
+		if arg 1 is "ttt":
+			if {map.ttt.%arg 2%} is not set:
+				message "&cNo map exists!"
+				stop
+			delete {map.ttt.%arg 2%}
+			remove arg 2 from {maps.ttt.list::*}
+			message "&7Map &3&l%arg 2% &7removed!"
+
+command /mapvote <text>:
+	trigger:
+		if {vote.%player%.session} is set:
+			message "&cYou cannot vote twice"
+		else:
+			if arg 1 is "guns":
+				open chest with 1 row named "&cVote for a map!" to player
+				format slot 2 of player with tnt named "&a&lNuke" to close then run [execute player command "addmapvote nuke"]
+				format slot 6 of player with sandstone named "&a&lMirage" to close then run [execute player command "addmapvote mirage"]
+			if arg 1 is "kitpvp":
+				open chest with 1 row named "&cVote for a map!" to player
+				format slot 2 of player with grass named "&a&lBiomes" to close then run [execute player command "addmapvote biomes"]
+				format slot 6 of player with podzol named "&a&lMini Biomes" to close then run [execute player command "addmapvote biomes_mini"]
+			if arg 1 is "parkour":
+				open chest with 1 row named "&cVote for a map!" to player
+				format slot 2 of player with stone named "&a&lCaves" to close then run [execute player command "addmapvote caves"]
+				format slot 6 of player with cobblestone named "&a&lRuins" to close then run [execute player command "addmapvote ruins"]
+			if arg 1 is "spleef":
+				open chest with 1 row named "&cVote for a map!" to player
+				format slot 4 of player with white carpet named "&a&lFlat" to close then run [execute player command "addmapvote flat"]
+			if arg 1 is "splegg":
+				open chest with 1 row named "&cVote for a map!" to player
+				format slot 4 of player with slimeball named "&a&lCircle" to close then run [execute player command "addmapvote circle"]
+			if arg 1 is "bowspleef":
+				open chest with 1 row named "&cVote for a map!" to player
+				format slot 4 of player with bow named "&a&lBowspleef" to close then run [execute player command "addmapvote bowspleef"]
+			if arg 1 is "ttt":
+				open chest with 1 row named "&cVote for a map!" to player
+				format slot 4 of player with grass named "&a&ltttbiomes" to close then run [execute player command "addmapvote tttbiomes"]
+
+command /mapvotestart:
+	executable by: console
+	trigger:
+		delete {vote.map.mirage}
+		delete {vote.map.nuke}
+		delete {vote.map.biomes}
+		delete {vote.map.biomes_mini}
+		delete {vote.map.caves}
+		delete {vote.map.flat}
+		delete {vote.map.circle}
+		delete {vote.map.mirage}
+		delete {vote.map.ruins}
+		delete {vote.map.bowspleef}
+		delete {vote.map.tttbiomes}
+		delete {onlineplayers}
+		set {onlineplayers} to amount of players
+		add 0.01 to {onlineplayers}
+		if {onlineplayers} < 2:
+			broadcast "&cNot enough players detected. Retrying in 30 seconds"
+			loop all players:
+				set slot 4 of loop-player's inventory to air
+			make console execute command "retryplayers"
+			stop
+		set {map.voting} to 4
+		loop all players:
+			set slot 4 of loop-player's inventory to emerald named "&6&lMap Voting" with lore "&7Right click to open the game voting menu!"
+			send loop-player title "&cAnnouncement" with subtitle "&aRight click your emerald to choose a map!" for 3 seconds
+			delete {vote.%loop-player%.session}
+
+on right click with emerald:
+	if name of tool is "&6&lMap Voting":
+		if {map.voting} is set:
+			wait 2 tick
+			if {vote.%player%.session} is set:
+				message "&cYou cannot vote twice"
+			if {vote.%player%.session} is not set:
+				make player execute command "mapvote %{vote.current.game}%"
+	else:
+		stop
+
+command /addmapvote <text>:
+	trigger:
+		if {vote.%player%.session} is set:
+			message "&cYou cannot vote twice"
+			stop
+		if {vote.%player%.session} is not set:
+			add 1 to {vote.map.%arg 1%}
+			set {vote.%player%.session} to true
+			set slot 4 of player's inventory to paper named "&a&lThanks for voting!" with lore "&7You are awesome... Like oflords"
+			message "&aYou voted for: &3&l%arg 1%"
+
+command /testvotes <text>:
+	trigger:
+		message "%{vote.map.%arg 1%}%"
+
+command /setmapfinal <text>:
+	trigger:
+		if arg 1 is "guns":
+			set {_first} to {vote.map.mirage}
+			set {_second} to {vote.map.nuke}
+			set {_max} to 0.1
+			if {_first} > {_max}:
+				set {_max} to {_first}
+			if {_second} > {_max}:
+				set {_max} to {_second}
+			if {_max} = {vote.map.mirage}:
+				broadcast "&aMap set to Mirage with %{_max}% votes"
+				set {vote.current.map} to "mirage"
+				loop all players:
+					teleport loop-player to {map.guns.%{vote.current.map}%}
+				make console execute command "gunsgo"
+				stop
+			if {_max} = {vote.map.nuke}:
+				broadcast "&aMap set to Nuke with %{_max}% votes"
+				set {vote.current.map} to "nuke"
+				loop all players:
+					teleport loop-player to {map.guns.%{vote.current.map}%}
+				make console execute command "gunsgo"
+				stop
+			if {_max} = {vote.map.mirage}:
+				broadcast "&aMap set to Mirage with %{_max}% votes"
+				set {vote.current.map} to "mirage"
+				loop all players:
+					teleport loop-player to {map.guns.%{vote.current.map}%}
+				make console execute command "gunsgo"
+				stop
+			if {_max} = 0.1:
+				broadcast "&aMap set to Nuke"
+				set {vote.current.map} to "nuke"
+				loop all players:
+					teleport loop-player to {map.guns.%{vote.current.map}%}
+				make console execute command "gunsgo"
+		if arg 1 is "kitpvp":
+			set {_first} to {vote.map.biomes}
+			set {_second} to {vote.map.biomes_mini}
+			set {_max} to 0.1
+			if {_first} > {_max}:
+				set {_max} to {_first}
+			if {_second} > {_max}:
+				set {_max} to {_second}
+			if {_max} = {vote.map.biomes}:
+				broadcast "&aMap set to Biomes with %{_max}% votes"
+				set {vote.current.map} to "biomes"
+				loop all players:
+					teleport loop-player to {map.kitpvp.%{vote.current.map}%}
+				make console execute command "pvpgo"
+				stop
+			if {_max} = {vote.map.biomes_mini}:
+				broadcast "&aMap set to Mini Biomes with %{_max}% votes"
+				set {vote.current.map} to "biomes_mini"
+				loop all players:
+					teleport loop-player to {map.kitpvp.%{vote.current.map}%}
+				make console execute command "pvpgo"
+				stop
+			if {_max} = 0.1:
+				broadcast "&aMap set to Biomes"
+				set {vote.current.map} to "biomes"
+				loop all players:
+					teleport loop-player to {map.kitpvp.%{vote.current.map}%}
+				make console execute command "pvpgo"
+		if arg 1 is "parkour":
+			set {_first} to {vote.map.caves}
+			set {_second} to {vote.map.ruins}
+			set {_max} to 0.1
+			if {_first} > {_max}:
+				set {_max} to {_first}
+			if {_second} > {_max}:
+				set {_max} to {_second}
+			if {_max} = {vote.map.caves}:
+				broadcast "&aMap set to Caves with %{_max}% votes"
+				set {vote.current.map} to "caves"
+				loop all players:
+					teleport loop-player to {map.parkour.%{vote.current.map}%}
+				make console execute command "parkourgo"
+				stop
+			if {_max} = {vote.map.ruins}:
+				broadcast "&aMap set to Ruins with %{_max}% votes"
+				set {vote.current.map} to "ruins"
+				loop all players:
+					teleport loop-player to {map.parkour.%{vote.current.map}%}
+				make console execute command "parkourgo"
+				stop
+			if {_max} = 0.1:
+				broadcast "&aMap set to Caves"
+				set {vote.current.map} to "caves"
+				loop all players:
+					teleport loop-player to {map.parkour.%{vote.current.map}%}
+				make console execute command "parkourgo"
+		if arg 1 is "spleef":
+			set {_first} to {vote.map.flat}
+			set {_max} to 0.1
+			if {_first} > {_max}:
+				set {_max} to {_first}
+			if {_max} = {vote.map.flat}:
+				broadcast "&aMap set to Flat with %{_max}% votes"
+				set {vote.current.map} to "flat"
+				loop all players:
+					teleport loop-player to {map.spleef.%{vote.current.map}%}
+				make console execute command "spleefgo"
+				stop
+			if {_max} = 0.1:
+				broadcast "&aMap set to Flat"
+				set {vote.current.map} to "flat"
+				loop all players:
+					teleport loop-player to {map.spleef.%{vote.current.map}%}
+				make console execute command "spleefgo"
+		if arg 1 is "splegg":
+			set {_first} to {vote.map.circle}
+			set {_max} to 0.1
+			if {_first} > {_max}:
+				set {_max} to {_first}
+			if {_max} = {vote.map.circle}:
+				broadcast "&aMap set to Circle with %{_max}% votes"
+				set {vote.current.map} to "Circle"
+				loop all players:
+					teleport loop-player to {map.splegg.%{vote.current.map}%}
+				make console execute command "splegggo"
+				stop
+			if {_max} = 0.1:
+				broadcast "&aMap set to Circle"
+				set {vote.current.map} to "Circle"
+				loop all players:
+					teleport loop-player to {map.splegg.%{vote.current.map}%}
+				make console execute command "splegggo"
+		if arg 1 is "bowspleef":
+			set {_first} to {vote.map.bowspleef}
+			set {_max} to 0.1
+			if {_first} > {_max}:
+				set {_max} to {_first}
+			if {_max} = {vote.map.bowspleef}:
+				broadcast "&aMap set to bowspleef with %{_max}% votes"
+				set {vote.current.map} to "bowspleef"
+				loop all players:
+					teleport loop-player to {map.bowspleef.%{vote.current.map}%}
+				make console execute command "bowspleefgo"
+				stop
+			if {_max} = 0.1:
+				broadcast "&aMap set to BirchlakeCity"
+				set {vote.current.map} to "bowspleef"
+				loop all players:
+					teleport loop-player to {map.bowspleef.%{vote.current.map}%}
+				make console execute command "bowspleef"
+		if arg 1 is "ttt":
+			set {_first} to {vote.map.tttbiomes}
+			set {_max} to 0.1
+			if {_first} > {_max}:
+				set {_max} to {_first}
+			if {_max} = {vote.map.tttbiomes}:
+				broadcast "&aMap set to tttbiomes with %{_max}% votes"
+				set {vote.current.map} to "tttbiomes"
+				loop all players:
+					teleport loop-player to {map.ttt.%{vote.current.map}%}
+				make console execute command "tttgo"
+				stop
+			if {_max} = 0.1:
+				broadcast "&aMap set to tttbiomes"
+				set {vote.current.map} to "tttbiomes"
+				loop all players:
+					teleport loop-player to {map.ttt.%{vote.current.map}%}
+				make console execute command "tttgo"
+
+every 10 seconds:
+	if {map.voting} is set:
+		if {map.voting} is 4:
+			broadcast "&c&l30 seconds remaining"
+			loop all players:
+				send loop-player title "" with subtitle "&c30 seconds remaining" for 3 seconds
+			set {map.voting} to 3
+			stop
+		if {map.voting} is 3:
+			broadcast "&c&l20 seconds remaining"
+			loop all players:
+				send loop-player title "" with subtitle "&c20 seconds remaining" for 3 seconds
+			set {map.voting} to 2
+			stop
+		if {map.voting} is 2:
+			broadcast "&c&l10 seconds remaining"
+			loop all players:
+				send loop-player title "" with subtitle "&c10 seconds remaining" for 3 seconds
+			set {map.voting} to 1
+			stop
+		if {map.voting} is 1:
+			broadcast "&c&lVoting has ended!"
+			make console execute command "setmapfinal %{vote.current.game}%"
+			delete {map.voting}
+	else:
+		stop
