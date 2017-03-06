@@ -1,0 +1,23 @@
+command /gamestats:
+	trigger:
+		open chest with 3 row named "&b&l               Game Stats" to player
+		format slot 4 of player with nether star named "&b&lOverall" with lore "&6Total Games Played: %{total.games}%" to be unstealable
+		format slot 9 of player with diamond shovel named "&a&lSpleef" with lore "&6Times Played: %{total.plays.spleef}%" to be unstealable
+		format slot 10 of player with golden hoe named "&a&lGuns" with lore "&6Times Played: %{total.plays.guns}%" to be unstealable
+		format slot 11 of player with iron sword named "&a&lKitPvP" with lore "&6Times Played: %{total.plays.kitpvp}%" to be unstealable
+		format slot 12 of player with feather named "&a&lParkour" with lore "&6Times Played: %{total.plays.parkour}%" to be unstealable
+		format slot 13 of player with egg named "&a&lSplegg" with lore "&6Times Played: %{total.plays.splegg}%" to be unstealable
+		format slot 14 of player with bow named "&a&lBow Spleef" with lore "&6Times Played: %{total.plays.bowspleef}%" to be unstealable
+
+command /donteverdothiscommand:
+	permission: shh.dont.tell.anybody
+	trigger:
+		delete {total.plays.guns}
+		delete {total.plays.kitpvp}
+		delete {total.plays.spleef}
+		delete {total.games}
+		delete {total.plays.splegg}
+		delete {total.plays.parkour}
+		delete {total.plays.blockhunt}
+		delete {total.plays.bowspleef}
+		delete {total.plays.ttt}
