@@ -1,0 +1,16 @@
+# No Weather By JaneG AKA janekilowski
+
+# Delete from here to remove the time change
+
+at 18:00:
+    set time to 12:00
+
+# Stop deleting here
+    
+# Don't touch this!
+
+on weather change to rainy:
+    set weather to sunny
+    
+on weather change to thundering:
+    set weather to sunny
