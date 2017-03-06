@@ -1,0 +1,303 @@
+command /gamedone <text>:
+	executable by: console
+	trigger:
+		if arg 1 is "guns":
+			wait 10 tick
+			make console execute command "lobbyall"
+			make console execute command "gamevote"
+			wait 5 tick
+			make console execute command "lobbyall"
+		if arg 1 is "pvp":
+			wait 10 tick
+			make console execute command "lobbyall"
+			make console execute command "gamevote"
+			wait 5 tick
+			make console execute command "lobbyall"
+		if arg 1 is "parkour":
+			wait 10 tick
+			make console execute command "lobbyall"
+			make console execute command "gamevote"
+			wait 5 tick
+			make console execute command "lobbyall"
+		if arg 1 is "spleef":
+			wait 10 tick
+			make console execute command "lobbyall"
+			make console execute command "gamevote"
+			wait 5 tick
+			make console execute command "lobbyall"
+		if arg 1 is "splegg":
+			wait 10 tick
+			make console execute command "lobbyall"
+			make console execute command "gamevote"
+			wait 5 tick
+			make console execute command "lobbyall"
+		if arg 1 is "bowspleef":
+			wait 10 tick
+			make console execute command "lobbyall"
+			make console execute command "gamevote"
+			wait 5 tick
+			make console execute command "lobbyall"
+		if arg 1 is "ttt":
+			wait 10 tick
+			make console execute command "lobbyall"
+			make console execute command "gamevote"
+			wait 5 tick
+			make console execute command "lobbyall"
+		loop all players:
+			heal the loop-player
+			extinguish the loop-player
+
+command /gamestop:
+	permission: pixelors.manager
+	trigger:
+		delete {game.voting}
+		broadcast "&c&lGame voting has been canceled by an admin"
+
+command /gamevote:
+	permission: magic.admin.dont
+	trigger:
+		set {game.vote.guns} to 0
+		set {game.vote.kitpvp} to 0
+		set {game.vote.parkour} to 0
+		set {game.vote.spleef} to 0
+		set {game.vote.splegg} to 0
+		set {game.vote.bowspleef} to 0
+		set {game.vote.ttt} to 0
+		delete {onlineplayers}
+		delete {vote.current.game}
+		set {onlineplayers} to amount of players
+		add 0.01 to {onlineplayers}
+		if {onlineplayers} < 2:
+			make console execute command "retryplayers"
+			loop all players:
+				delete {vote.%loop-player%.session}
+			stop
+		make console execute command "lobbyall"
+		wait 1 tick
+		set {game.voting} to 4
+		loop all players:
+			clear the loop-player's inventory
+			set loop-player's gamemode to adventure
+			make loop-player execute command "puthead %{current.head.%loop-player%}%"
+			set slot 4 of loop-player's inventory to emerald named "&6&lGame Voting" with lore "&7Right click to open the game voting menu!"
+			send loop-player title "&cAnnouncement" with subtitle "&aRight click your emerald to choose a new game!" for 3 seconds
+			delete {vote.%loop-player%.session}
+
+command /resetvotes:
+	permission: never.use.this
+	trigger:
+		loop all players:
+			delete {vote.%loop-player%.session}
+
+command /retryplayers:
+	executable by: console
+	trigger:
+		wait 30 seconds
+		make console execute command "gamevote"
+
+on right click with emerald:
+	if name of tool is "&6&lGame Voting":
+		if {game.voting} is set:
+			wait 2 tick
+			if {vote.%player%.session} is set:
+				message "&cYou cannot vote twice"
+			else:
+				open chest with 1 row named "&cVote for a game!" to player
+				format slot 0 of player with diamond shovel named "&a&lSpleef" with lore "&7%{game.vote.spleef}% Total Votes" to close then run [execute player command "addvote spleef"]
+				format slot 1 of player with bow named "&a&lBow Spleef" with lore "&7%{game.vote.bowspleef}% Total Votes" to close then run [execute player command "addvote bowspleef"]
+				format slot 2 of player with golden hoe named "&a&lGuns" with lore "&7%{game.vote.guns}% Total Votes" to close then run [execute player command "addvote guns"]
+				format slot 4 of player with egg named "&a&lSplegg" with lore "&7%{game.vote.splegg}% Total Votes" to close then run [execute player command "addvote splegg"]
+				format slot 6 of player with iron sword named "&a&lKitpvp" with lore "&7%{game.vote.kitpvp}% Total Votes" to close then run [execute player command "addvote kitpvp"]
+				format slot 8 of player with feather named "&a&lParkour" with lore "&7%{game.vote.parkour}% Total Votes" to close then run [execute player command "addvote parkour"]
+#				format slot 7 of player with feather named "&a&lTTT" with lore "&7%{game.vote.ttt}% Total Votes" to close then run [execute player command "addvote ttt"]
+		else:
+			stop
+	else:
+		stop
+
+command /addvote <text>:
+	trigger:
+		if {vote.%player%.session} is set:
+			message "&cYou cannot vote twice"
+			stop
+		else:
+			if arg 1 is "guns":
+				add 1 to {game.vote.guns}
+				set {voted.%player%.session} to yes
+				message "&aYou voted for: &3&lGuns"
+				set slot 4 of player's inventory to paper named "&a&lThanks for voting!" with lore "&7You are awesome... Like oflords"
+			if arg 1 is "kitpvp":
+				add 1 to {game.vote.kitpvp}
+				set {voted.%player%.session} to yes
+				message "&aYou voted for: &3&lPixelorsPvP"
+				set slot 4 of player's inventory to paper named "&a&lThanks for voting!" with lore "&7You are awesome... Like oflords"
+			if arg 1 is "parkour":
+				add 1 to {game.vote.parkour}
+				set {voted.%player%.session} to yes
+				message "&aYou voted for: &3&lPixelorsParkour"
+				set slot 4 of player's inventory to paper named "&a&lThanks for voting!" with lore "&7You are awesome... Like oflords"
+			if arg 1 is "spleef":
+				add 1 to {game.vote.spleef}
+				set {voted.%player%.session} to yes
+				message "&aYou voted for: &3&lSpleef"
+				set slot 4 of player's inventory to paper named "&a&lThanks for voting!" with lore "&7You are awesome... Like oflords"
+			if arg 1 is "splegg":
+				add 1 to {game.vote.splegg}
+				set {voted.%player%.session} to yes
+				message "&aYou voted for: &3&lSplegg"
+				set slot 4 of player's inventory to paper named "&a&lThanks for voting!" with lore "&7You are awesome... Like oflords"
+			if arg 1 is "bowspleef":
+				add 1 to {game.vote.bowspleef}
+				set {voted.%player%.session} to yes
+				message "&aYou voted for: &3&lBow Spleef"
+				set slot 4 of player's inventory to paper named "&a&lThanks for voting!" with lore "&7You are awesome... Like oflords"
+			if arg 1 is "ttt":
+				add 1 to {game.vote.ttt}
+				set {voted.%player%.session} to yes
+				message "&aYou voted for: &3&lTTT"
+				set slot 4 of player's inventory to paper named "&a&lThanks for voting!" with lore "&7You are awesome... Like oflords"
+
+command /setopgame:
+	permission: game.check
+	trigger:
+		set {_first} to {game.vote.guns}
+		set {_second} to {game.vote.kitpvp}
+		set {_third} to {game.vote.parkour}
+		set {_fourth} to {game.vote.spleef}
+		set {_fifth} to {game.vote.splegg}
+		set {_sixth} to {game.vote.bowspleef}
+		set {_seventh} to {game.vote.ttt}
+		set {_max} to 0.1
+		if {_first} > {_max}:
+			set {_max} to {_first}
+		if {_second} > {_max}:
+			set {_max} to {_second}
+		if {_third} > {_max}:
+			set {_max} to {_third}
+		if {_fourth} > {_max}:
+			set {_max} to {_fourth}
+		if {_fifth} > {_max}:
+			set {_max} to {_fifth}
+		if {_sixth} > {_max}:
+			set {_max} to {_sixth}
+		if {_seventh} > {_max}:
+			set {_max} to {_seventh}
+		if {_max} = {game.vote.guns}:
+			broadcast "&aGame set to guns with %{_max}% votes"
+			add 1 to {total.games}
+			add 1 to {total.plays.guns}
+			set {vote.current.game} to "guns"
+			make console execute command "mapvotestart"
+			stop
+		if {_max} = {game.vote.kitpvp}:
+			broadcast "&aGame set to kitpvp with %{_max}% votes"
+			add 1 to {total.games}
+			add 1 to {total.plays.kitpvp}
+			set {vote.current.game} to "kitpvp"
+			make console execute command "mapvotestart"
+			stop
+		if {_max} = {game.vote.parkour}:
+			broadcast "&aGame set to parkour with %{_max}% votes"
+			add 1 to {total.games}
+			add 1 to {total.plays.parkour}
+			set {vote.current.game} to "parkour"
+			make console execute command "mapvotestart"
+			stop
+		if {_max} = {game.vote.spleef}:
+			broadcast "&aGame set to spleef with %{_max}% votes"
+			add 1 to {total.games}
+			add 1 to {total.plays.spleef}
+			set {vote.current.game} to "spleef"
+			make console execute command "mapvotestart"
+			stop
+		if {_max} = {game.vote.splegg}:
+			broadcast "&aGame set to splegg with %{_max}% votes"
+			add 1 to {total.games}
+			add 1 to {total.plays.splegg}
+			set {vote.current.game} to "splegg"
+			make console execute command "mapvotestart"
+			stop
+		if {_max} = {game.vote.bowspleef}:
+			broadcast "&aGame set to bowspleef with %{_max}% votes"
+			add 1 to {total.games}
+			add 1 to {total.plays.bowspleef}
+			set {vote.current.game} to "bowspleef"
+			make console execute command "mapvotestart"
+			stop
+		if {_max} = {game.vote.ttt}:
+			broadcast "&aGame set to TTT with %{_max}% votes"
+			add 1 to {total.games}
+			add 1 to {total.plays.ttt}
+			set {vote.current.game} to "ttt"
+			make console execute command "mapvotestart"
+			stop
+		if {_max} = 0.1:
+			set {_random} to a random number between 0 and 5
+			broadcast "%{_random}%"
+			if {_random} is between 0.01 and 1:
+				broadcast "&aGame randomly set to guns"
+				set {vote.current.game} to "guns"
+				make console execute command "mapvotestart"
+				stop
+			if {_random} is between 1.01 and 2:
+				broadcast "&aGame randomly set to kitpvp"
+				set {vote.current.game} to "kitpvp"
+				make console execute command "mapvotestart"
+				stop
+			if {_random} is between 2.01 and 3:
+				broadcast "&aGame randomly set to parkour"
+				set {vote.current.game} to "parkour"
+				make console execute command "mapvotestart"
+				stop
+			if {_random} is between 3.01 and 4:
+				broadcast "&aGame randomly set to spleef"
+				set {vote.current.game} to "spleef"
+				make console execute command "mapvotestart"
+				stop
+			if {_random} is between 4.01 and 5:
+				broadcast "&aGame randomly set to splegg"
+				set {vote.current.game} to "splegg"
+				make console execute command "mapvotestart"
+				stop
+			if {_random} is between 5.01 and 6:
+				broadcast "&aGame randomly set to bowspleef"
+				set {vote.current.game} to "bowspleef"
+				make console execute command "mapvotestart"
+				stop
+			if {_random} is between 6.01 and 7:
+				broadcast "&aGame randomly set to TTT"
+				set {vote.current.game} to "ttt"
+				make console execute command "mapvotestart"
+				stop
+
+every 10 seconds:
+	if {game.voting} is set:
+		if {game.voting} is 4:
+			broadcast "&c&l30 seconds remaining"
+			loop all players:
+				send loop-player title "" with subtitle "&c30 seconds remaining" for 3 seconds
+			set {game.voting} to 3
+			stop
+		if {game.voting} is 3:
+			broadcast "&c&l20 seconds remaining"
+			loop all players:
+				send loop-player title "" with subtitle "&c20 seconds remaining" for 3 seconds
+			set {game.voting} to 2
+			stop
+		if {game.voting} is 2:
+			broadcast "&c&l10 seconds remaining"
+			loop all players:
+				send loop-player title "" with subtitle "&c10 seconds remaining" for 3 seconds
+			set {game.voting} to 1
+			stop
+		if {game.voting} is 1:
+			broadcast "&c&lVoting has ended!"
+			make console execute command "setopgame"
+			delete {game.voting}
+	else:
+		stop
+
+on damage:
+	damage cause is fall:
+		victim's world is "testlobby"
+		cancel the event
