@@ -1,0 +1,35 @@
+on sign change:
+	player has permission "reward.admin"
+	line 1 is "[rewards]"
+	message "&7Sign &3&lRewards &7made sucessfully!"
+	set line 1 to "&9Daily Rewards"
+	set line 2 to "&5&lClaim"
+
+on right click on a sign:
+	if line 1 is "&9Daily Rewards":
+		if line 2 is "&5&lClaim":
+			make player execute command "/dailyreward"
+
+command /dailyreward:
+	trigger:
+		set {_difference} to difference between {reward.%player%.1.time} and now 
+		if {_difference} is less than 1 days:
+			set  {_difference} to difference between {_difference} and 1 days
+			message "You still have to wait %{_difference}% before you can use this again "
+			stop
+		open chest with 1 row named "&6Rewards" to player
+		wait a tick
+		format slot 4 of player with nether star named "&3&lClaim Now!" with lore "&7Click to claim the reward!" to close then run [execute player command "reward1"]
+
+command /reward1:
+	executable by: players
+	trigger:
+		set {_difference} to difference between {reward.%player%.1.time} and now 
+		if {_difference} is less than 1 days:
+			set  {_difference} to difference between {_difference} and 1 days
+			message "You still have to wait %{_difference}% before you can use this again "
+			stop
+		set {reward.%player%.1.time} to now
+		set {reward.%player%.1} to true
+		make console execute command "/coinadmin add %player% 100"
+		send "&a&lYou have claimed your reward!"
