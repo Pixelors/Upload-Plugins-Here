@@ -132,7 +132,7 @@ command /mapvote <text>:
 				format slot 4 of player with bow named "&a&lBowspleef" to close then run [execute player command "addmapvote bowspleef"]
 			if arg 1 is "ttt":
 				open chest with 1 row named "&cVote for a map!" to player
-				format slot 4 of player with grass named "&a&ltttbiomes" to close then run [execute player command "addmapvote tttbiomes"]
+				format slot 4 of player with grass named "&a&lTTT" to close then run [execute player command "addmapvote TTT"]
 
 command /mapvotestart:
 	executable by: console
@@ -147,7 +147,7 @@ command /mapvotestart:
 		delete {vote.map.mirage}
 		delete {vote.map.ruins}
 		delete {vote.map.bowspleef}
-		delete {vote.map.tttbiomes}
+		delete {vote.map.TTT}
 		delete {onlineplayers}
 		set {onlineplayers} to amount of players
 		add 0.01 to {onlineplayers}
@@ -337,20 +337,20 @@ command /setmapfinal <text>:
 					teleport loop-player to {map.bowspleef.%{vote.current.map}%}
 				make console execute command "bowspleef"
 		if arg 1 is "ttt":
-			set {_first} to {vote.map.tttbiomes}
+			set {_first} to {vote.map.TTT}
 			set {_max} to 0.1
 			if {_first} > {_max}:
 				set {_max} to {_first}
-			if {_max} = {vote.map.tttbiomes}:
-				broadcast "&aMap set to tttbiomes with %{_max}% votes"
-				set {vote.current.map} to "tttbiomes"
+			if {_max} = {vote.map.TTT}:
+				broadcast "&aMap set to TTT with %{_max}% votes"
+				set {vote.current.map} to "TTT"
 				loop all players:
 					teleport loop-player to {map.ttt.%{vote.current.map}%}
 				make console execute command "tttgo"
 				stop
 			if {_max} = 0.1:
-				broadcast "&aMap set to tttbiomes"
-				set {vote.current.map} to "tttbiomes"
+				broadcast "&aMap set to TTT"
+				set {vote.current.map} to "TTT"
 				loop all players:
 					teleport loop-player to {map.ttt.%{vote.current.map}%}
 				make console execute command "tttgo"
