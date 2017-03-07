@@ -1,0 +1,295 @@
+# This version of pixelorsttt is modified to have a game timer of 5 minutes once players join. Do not use on any normal server! (Cosmetics and economy disabled)
+# TTT
+# Traitors = 1/4 (aka 25%, 1 outta 4 people) of players
+# Detectives = 13/100 (aka 13%, 1 outta 8-9 people) of players (may wanna do 3/20 (aka 15%) of players) There should be a minimum of 10 players initially, but this can help us get started for now.
+# 
+#  Future Updates:
+#
+#      Pre-March
+# -Detective Features
+# -Better Win Mechanism?
+# -Dead bodies & features
+#
+#      March 1
+# -Stats
+# -Karma 
+# -Guns lying around
+#
+#      After-March
+# -Traitor & Detective Gadgets
+# -Traitor Rooms
+# -?
+# 
+# VARIABLE KEY
+# {onlineplayers} = # of players on the server
+# {ttt.players} = Active in-game players remaining
+# {ttt.ingame.%player%} = Player is actively in-game
+# {ttt::role::traitor::%player%} = Player's role is Traitor
+# {ttt::role::detective::%player%} = Player's role is Detective
+# {ttt::role::innocent::%player%} = Player's role is Innocent
+# {ttt.timer.game} = Game Time to find traitors or else if it expires then Traitors win. (Currently it has a failsafe in case it wasn't stopped sooner)
+# {ttt.active} = TTT is currently being played
+# {ttt.joinable} = Whether TTT started yet
+# {map.ttt.%{vote.current.map}%} = Current TTT Map
+# {ttt::p::r::%player%} ?
+# 
+# COMMAND KEY
+# /puthead %{current.head.%loop-player%}% ???????
+# /ttt join, executed by player when a game starts or when they join a live game. Performs actions for the player's game.
+# /ttt leave, executed by player when a game ends or when they leave a live game. Performs actions for the player's game.
+# /tttgo starts a game.
+# /tttend ends a game.
+# /gamevote at the very beginning of server start and after all game ending actions were done. Starts game voting.
+# /addvote <> is used for players to vote for a game.
+# /setopgame selects the game based on the votes.
+# /mapvotestart starts map voting.
+# /addmapvote <> is used for players to vote for a map.
+# /setmapfinal selects the map based on the votes.
+# /lobbyall sends everyone to the lobby
+# IN ORDER: /gamevote [+] /addvote's [+] /setopgame [+] /mapvotestart [+] /addmapvote's [+] /setmapfinal [+] /tttgo [+] /ttt join's [+] /ttt end [+] /lobbyall [+] AND REPEAT!
+# 
+# NOTE: Every Map has to be the same name as it's World
+
+command /ttt <text> [<text>] [<player>]:
+	executable by: players
+	trigger:
+		if argument 1 is "join":
+			if {ttt.joinable} is true:
+				set {ttt.ingame.%player%} to true 
+#
+#
+#
+#
+#
+#
+#
+#
+#
+				set chestplate of the player to air
+				set leggings of the player to air
+				set boots of the player to air
+				add 1 to {ttt.players}
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#				wait 1 tick
+				set the player's gamemode to adventure
+				wait 20 ticks
+				message "&7If you don't get the resource pack prompt, please &aallow server resource packs&7 on your server list screen."
+				send resource pack from "https://www.dropbox.com/s/490ypi8a5bvb9aj/Guns_Warfare_2.zip?dl=1" to player
+				message "&cNot working? You can download the pack from here:"
+				message "&a&lhttp://bit.ly/GunsPack"
+#				execute console command "give %player% stone_sword 1 {Name:Crowbar}"
+#				give a diamond pickaxe
+				execute console command "shot give %player% AK-47"
+				set slot 1 of player's inventory to 1 stone sword named "§eCrowbar" with lore "§7§oFind those Traitors."
+#				set player's walk speed to 0.25
+			else:
+				set the player's gamemode to spectator
+				message "&cYou are now a spectator for the current game!"
+		if argument 1 is "leave":
+			if {ttt.ingame.%player%} is true:
+				clear {ttt.ingame.%player%}
+				clear {ttt::role::traitor::%player%}
+				clear {ttt::role::detective::%player%}
+				clear {ttt::role::innocent::%player%}
+#
+#
+#
+#
+#
+#
+#
+#
+#
+				set chestplate of the player to air
+				set leggings of the player to air
+				set boots of the player to air
+				clear player's inventory
+				wipe player's sidebar
+				set the player's gamemode to adventure
+
+on death of player:
+	if {ttt.active} is true:
+		execute console command "coinadmin add %attacker% 1"
+		clear the player's inventory
+		make player execute command "ttt leave"
+
+on respawn:
+	if {ttt.active} is true:
+		wait 1 tick
+		if {ttt.players} > 2:
+			teleport player to {map.ttt.%{vote.current.map}%}
+
+on break:
+	if {ttt.active} is true:
+		player doesn't have permission "pixelors.manager":
+			cancel event
+		else:
+			message "§c§lTTT §8§l»&7 Players can't do this in-game!"
+on place:
+	if {ttt.active} is true:
+		player doesn't have permission "pixelors.manager":
+			cancel event
+		else:
+			message "§c§lTTT §8§l»&7 Players can't do this in-game!"
+on pickup:
+	if {ttt.active} is true:
+		player doesn't have permission "pixelors.manager":
+			cancel event
+		else:
+			message "§c§lTTT §8§l»&7 Players can't do this in-game!"
+
+on drop:
+	if {ttt.active} is true:
+		player doesn't have permission "pixelors.manager":
+			cancel event
+		else:
+			message "§c§lTTT §8§l»&7 Players can't do this in-game!"
+
+on quit:
+	if {ttt.ingame.%player%} is true:
+		make player execute command "ttt leave"
+
+command /tttgo:
+	executable by: console 
+	trigger:
+		set {ttt.active} to true
+		set {ttt.timer.game} to 8
+		set {ttt.joinable} to true
+		loop all players:
+			make loop-player execute command "ttt join"
+			clear loop-player's inventory
+			make loop-player execute command "puthead %{current.head.%loop-player%}%"
+		set {onlineplayers} to amount of players
+		wait 20 ticks
+		clear {ttt.joinable}
+#
+		loop all players:
+			add loop-player to {_randomPlayer::*}
+#			if {onlineplayers} < 2:
+#			if {onlineplayers} = 2:
+#			if {onlineplayers} is 2 or 3 or 4:
+#				set {ttt::role::traitor::%player%} to random element out of {_randomPlayer::*}
+#				remove {ttt::role::traitor::%player%} from {_randomPlayer::*}
+#			else if {onlineplayers} is 5 or 6 or 7:
+#				set {ttt::role::traitor::%player%} to random element out of {_randomPlayer::*}
+#				remove {ttt::role::traitor::%player%} from {_randomPlayer::*}
+			if {onlineplayers} > 2:
+				set {ttt::role::traitor::%player%} to random element out of {_randomPlayer::*}
+				remove {ttt::role::traitor::%player%} from {_randomPlayer::*}
+			if {onlineplayers} > 8:
+				set {ttt::role::traitor::%player%} to random element out of {_randomPlayer::*}
+				remove {ttt::role::traitor::%player%} from {_randomPlayer::*}
+				set {ttt::role::detective::%player%} to random element out of {_randomPlayer::*}
+				remove {ttt::role::detective::%player%} from {_randomPlayer::*}
+			if {onlineplayers} > 12:
+				set {ttt::role::traitor::%player%} to random element out of {_randomPlayer::*}
+				remove {ttt::role::traitor::%player%} from {_randomPlayer::*}
+			if {onlineplayers} > 16:
+				set {ttt::role::traitor::%player%} to random element out of {_randomPlayer::*}
+				remove {ttt::role::traitor::%player%} from {_randomPlayer::*}
+				set {ttt::role::detective::%player%} to random element out of {_randomPlayer::*}
+				remove {ttt::role::detective::%player%} from {_randomPlayer::*}
+			if {onlineplayers} > 20:
+				set {ttt::role::traitor::%player%} to random element out of {_randomPlayer::*}
+				remove {ttt::role::traitor::%player%} from {_randomPlayer::*}
+			if {onlineplayers} > 24:
+				set {ttt::role::traitor::%player%} to random element out of {_randomPlayer::*}
+				remove {ttt::role::traitor::%player%} from {_randomPlayer::*}
+			if {onlineplayers} > 28:
+				set {ttt::role::traitor::%player%} to random element out of {_randomPlayer::*}
+				remove {ttt::role::traitor::%player%} from {_randomPlayer::*}
+			if {onlineplayers} > 31:
+				set {ttt::role::detective::%player%} to random element out of {_randomPlayer::*}
+				remove {ttt::role::detective::%player%} from {_randomPlayer::*}
+			if {onlineplayers} > 32:
+				set {ttt::role::traitor::%player%} to random element out of {_randomPlayer::*}
+				remove {ttt::role::traitor::%player%} from {_randomPlayer::*}
+# "bold":"true" ?
+			if "%loop-player%" = "%{ttt::role::traitor::%player%}%":
+				execute console command "/title %loop-player% title {""text"":""§cTRAITOR"",""color"":""aqua""}"		
+				execute console command "/title %loop-player% subtitle {""text"":""§7You must kill all innocents."",""color"":""gray"",""italic"":true}"
+				send "§c§lTTT §8§l»&7 You are a Traitor, you must play like an innocent and kill them. But do not get caught!" to loop-player
+			else if "%loop-player%" = "%{ttt::role::detective::%player%}%":
+				execute console command "/title %loop-player% title {""text"":""§9DETECTIVE"",""color"":""aqua""}"		
+				execute console command "/title %loop-player% subtitle {""text"":""§7§oFind and kill the traitors!"",""color"":""gray"",""italic"":true}"
+				set slot 2 of loop-player's inventory to 1 tripwire hook named "§eScanner" with lore "||§7§oScan fresh dead bodies for clues!"
+				send "§c§lTTT §8§l»&7 You are a Detective, try to look for clues to find and kill the Traitors." to loop-player
+			else:
+				set {ttt::role::innocent::%player%} to player's name
+				execute console command "/title %loop-player% title {""text"":""§aINNOCENT"",""color"":""aqua""}"		
+				execute console command "/title %loop-player% subtitle {""text"":""§7Try to survive!"",""color"":""gray"",""italic"":true}"
+				send "§c§lTTT §8§l»&7 You are an Innocent, do not trust anyone except Detectives. Try to look for clues to find and kill the Traitors." to loop-player
+#				send player title "&9Guns FFA" with subtitle "&6%{ttt.players.ingame}% Players Ingame" for 3 seconds
+#				set action bar of player to "&6There are &3&l%{ttt.players.ingame}% &6players ingame"
+
+every 30 seconds:
+	if {ttt.timer.game} is set:
+		remove 1 from {ttt.timer.game}
+		if {ttt.timer.game} is 10:
+			broadcast "§c§lTTT §8§l»&7 Game ends in &3&l5 Minutes"
+		if {ttt.timer.game} is 8:
+			broadcast "§c§lTTT §8§l»&7 Game ends in &3&l4 Minutes"
+		if {ttt.timer.game} is 6:
+			broadcast "§c§lTTT §8§l»&7 Game ends in &3&l3 Minutes"
+		if {ttt.timer.game} is 4:
+			broadcast "§c§lTTT §8§l»&7 Game ends in &3&l2 Minutes"
+		if {ttt.timer.game} is 2:
+			broadcast "§c§lTTT §8§l»&7 Game ends in &3&l1 Minute"
+		if {ttt.timer.game} is 1:
+			broadcast "§c§lTTT §8§l»&7 Game ends in &3&l30 Seconds"
+		if {ttt.timer.game} is 0:
+			clear {ttt.timer.game}
+			delete all dropped items in {map.ttt.%{vote.current.map}%}
+			loop all players:
+				if {ttt.ingame.%loop-player%} is true:
+					if {ttt::role::traitor::%loop-player%} is true:
+						broadcast "&cTerrorists Won!"
+					if {ttt::role::detective::%loop-player%} is true:
+						broadcast "&aInnocents Won!"
+					else:
+						broadcast "&aInnocents Won!"
+			wait 5 ticks
+			execute console command "tttend"
+	else:
+		stop
+
+command /tttend:
+	permission: pixelors.manager
+	executable by: console 
+	trigger:
+		broadcast "&7Game has finished! Moving to next game..."
+		loop all players:
+			make loop-player execute command "ttt leave"
+			execute console command "coinadmin add %loop-player% 10"
+		clear {ttt::role::*}
+		clear {ttt.players}
+		set {ttt.active} to false
+		execute console command "gamedone ttt"
+		wait 10 tick
+
+#command /tttwin:
+#	permission: please.save.me
+#	trigger:
+#		if {ttt.players} is set:
+#			clear {ttt.timer.game}
+#			broadcast "&7Game has finished! Moving to next game..."
+#			set {ttt.leaveable} to 1
+#			if {ttt.players} is set:
+#			loop all players:
+#				make loop-player execute command "ttt leave"
+#				make console execute command "coinadmin add %loop-player% 10"
+#			clear {ttt.players}
+#			make console execute command "gamedone ttt"
+#			wait 10 tick
+#			clear {ttt.leaveable}
+#		else:
+#			message "&cerror 790"
+#			stop
